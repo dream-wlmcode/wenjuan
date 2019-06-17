@@ -1,0 +1,793 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>题库分类列表</title>
+    <link rel="stylesheet" href="/resources/vendor/bootstrap-table/bootstrap-table.min.css">
+    <link rel="stylesheet" href="/resources/vendor/simple-line-icons/css/simple-line-icons.css">
+    <link rel="stylesheet" href="/resources/vendor/font-awesome/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="/resources/css/styles.css">
+    <link rel="stylesheet" href="/resources/vendor/Checkboxes/custom.css">
+    <link rel="stylesheet" href="/resources/vendor/artDialog/css/dialog.css">
+
+
+    <link rel="stylesheet" href="/resources/css/main.css">
+</head>
+<body class="sidebar-fixed header-fixed">
+<div class="page-wrapper">
+    <!-- 头部菜单 s-->
+    <nav class="navbar page-header">
+        <a href="#" class="btn btn-link sidebar-mobile-toggle d-md-none mr-auto">
+            <i class="fa fa-bars"></i>
+        </a>
+
+        <a class="navbar-brand" href="#">
+            <img src="/resources/imgs/logo.png" alt="logo">
+        </a>
+
+        <a href="#" class="btn btn-link sidebar-toggle d-md-down-none">
+            <i class="fa fa-bars"></i>
+        </a>
+
+        <ul class="navbar-nav ml-auto">
+            
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img src="/resources/imgs/avatar-1.png" class="avatar avatar-sm" alt="logo">
+                    <span class="small ml-1 d-md-down-none" id="nav-account"></span>
+                </a>
+
+                <div class="dropdown-menu dropdown-menu-right">
+                    <div class="dropdown-header">设置</div>
+
+                    <!-- <a href="#" class="dropdown-item">
+                        <i class="fa fa-wrench"></i> 设置
+                    </a> -->
+
+                    <a href="#" class="dropdown-item" id="logout">
+                        <i class="fa fa-lock"></i> 退出
+                    </a>
+                </div>
+            </li>
+        </ul>
+    </nav>
+    <!-- 头部菜单 e-->
+
+    <div class="main-container">
+
+        <!-- 左边菜单 s -->
+        <div class="sidebar">
+            <nav class="sidebar-nav">
+                <ul class="nav" id="menu-list">
+                </ul>
+            </nav>
+        </div>
+        <!-- 左边菜单 e -->
+
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header bg-light">
+                                题库分类
+                            </div>
+                            <div class="card-body">
+                                    
+                                <!-- 过滤框 -->
+                                <form class="form-inline">
+                                  <div class="form-group  mb-2">
+                                    <input type="text" class="form-control" id="searchText" placeholder="请输入名称或内容关键字...">
+                                  </div>
+                                  <button type="button" class="btn btn-primary mx-sm-3 mb-2" id="searchButton">搜索
+                                  </button>
+                                </form>
+                                
+
+                                <div class="table-responsive">
+                                    <div id="toolbar">
+                                        <button type="button" 
+                                        class="btn btn-info btn-sm" id="add_qClassify">
+                                            <i class="fa fa-plus"></i> 
+                                            &nbsp; 添加
+                                        </button>
+                                        <!-- disabled -->
+                                        <button type="button" 
+                                        class="btn btn-danger btn-sm" id="qClassify_deletes" >
+                                            <i class="fa fa-trash"></i> 
+                                            &nbsp; 批量删除
+                                        </button>
+                                    </div>
+
+                                    <table class="table table-bordered  table-striped table-hover" id="table-data">
+
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 题库分类编辑 s -->
+<div class="modal fade" id="qClassifyModal" tabindex="-1" role="dialog" aria-labelledby="qClassifyModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="qClassifyModalLabel">编辑题库分类</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+           <form>
+              <div class="form-group row">
+                <label for="e_name" class="col-sm-3 col-form-label text-right px-sm-0">名称：</label>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" id="e_name" placeholder="请输入名称">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="e_priority" class="col-sm-3 col-form-label text-right px-sm-0">显示顺序：</label>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" id="e_priority" placeholder="请输入显示顺序">
+                </div>
+              </div>
+            </form>
+      </div>
+      <div class="modal-footer">
+        <input type="hidden" id="e_id" />
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary" id="qClassifyModal_save">保存</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 题库分类编辑 e -->
+
+
+<!-- 添加题库分类 s -->
+<div class="modal fade" id="addqClassifyModal" tabindex="-1" role="dialog" aria-labelledby="addqClassifyModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addqClassifyModalLabel">添加题库分类</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+           <form>
+              <div class="form-group row">
+                <label for="addqClassify_name" class="col-sm-3 col-form-label text-right px-sm-0">名称：</label>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" id="addqClassify_name" placeholder="请输入名称">
+                </div>
+              </div>
+            </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary" id="addqClassifyModal_save">保存</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 添加题库分类 e -->
+
+
+
+
+<!-- 详情 s -->
+<div class="modal fade" id="detailsModal" tabindex="-1" role="dialog" aria-labelledby="detailsModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="detailsModalLabel">题库分类详情</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+           <form>
+              <div class="form-group row">
+                <label for="e_details_id" class="col-sm-3 col-form-label text-right px-sm-0">分类ID：</label>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" id="e_details_id" readonly="true">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="e_details_name" class="col-sm-3 col-form-label text-right px-sm-0">名称：</label>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" id="e_details_name" readonly="true">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="e_details_priority" class="col-sm-3 col-form-label text-right px-sm-0">显示顺序：</label>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" id="e_details_priority" readonly="true">
+                </div>
+              </div>
+            </form>
+      </div>
+      <div class="modal-footer">
+        <input type="hidden" id="e_details_id" />
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 详情 e -->
+
+
+
+<!-- 修改题库分类显示顺序 s -->
+<div class="modal fade" id="modifyPriorityModal" tabindex="-1" role="dialog" aria-labelledby="modifyPriorityModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modifyPriorityLabel">修改题库分类显示顺序</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+           <form>
+              <div class="form-group row">
+                <label for="e_qClssifypriority" class="col-sm-3 col-form-label text-right px-sm-0">显示顺序：</label>
+                <div class="col-sm-6">
+                  <input type="text" maxlength="5" class="form-control" id="e_qClssifypriority" oninput = "value=value.replace(/[^\d]/g,'')" placeholder="请输入显示顺序">
+                </div>
+              </div>
+            </form>
+      </div>
+      <div class="modal-footer">
+        <input type="hidden" id="e_qClssifypriority_id" />
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary" id="modifyPriorityModal_save">保存</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 修改题库分类显示顺序 e -->
+
+
+
+
+<script src="/resources/vendor/jquery/jquery.min.js"></script>
+<script src="/resources/vendor/popper.js/popper.min.js"></script>
+<script src="/resources/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="/resources/vendor/bootstrap-table/bootstrap-table.min.js"></script>
+<script src="/resources/vendor/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+<script src="/resources/vendor/cookie/jquery.cookie.js"></script>
+<script src="/resources/vendor/artDialog/js/artDialog.js"></script>
+<script src="/resources/vendor/artDialog/js/sh_languages.js"></script>
+<script src='/resources/js/port.js'></script>
+<script src="/resources/js/carbon.js"></script>
+<script src="/resources/js/common.js"></script>
+<script src="/resources/js/jquery.initTable.js"></script>
+
+
+
+
+
+
+<script>
+   var arr_authList = "";
+   $(function(){
+        
+        //获取权限
+        $.ajax({
+            url: domainUrl + 'admin/getUserInfo.do',
+            type: "POST",
+            dataType: "json",
+            data: {token: token},
+            success:function (data) {
+                if (data.code == 200) {
+                    var authList = data.data.authList;
+                    arr_authList = authList.split(",");
+
+                    console.log(arr_authList);
+
+                    if(arr_authList.indexOf('/admin/qbCategory/list.do') != -1){
+                        var qbCategory_list_do = "admin/qbCategory/list.do";
+
+                        //1.初始化Table
+                        $("#table-data").bootstrapTable('destroy'); 
+                        $.initBootstrapTable("#table-data", {
+                               method: 'post',
+                               url: domainUrl + 'admin/qbCategory/list.do?token='+token,
+                               height:'auto',
+                               pageSize: 6, 
+                               columns: [
+                                    {
+                                        checkbox: true
+                                    },
+                                    {
+                                        field: 'id',
+                                        title: '分类ID'
+                                    },
+                                    {
+                                        field: 'name',
+                                        title: '分类名称'
+                                    }, 
+                                    {
+                                        field: 'uName',
+                                        title: '创建者'
+                                    }, 
+                                    {
+                                        field: 'creDate',
+                                        title: '创建时间'
+                                    },
+                                    {
+                                        field: 'priority',
+                                        title: '显示顺序',
+                                    },
+                                    {
+                                        field: 'Button',
+                                        title: '操作',
+                                        events: operateEvents,
+                                        formatter: operateFormatter
+                                    },  
+                               ],
+                               onPostBody : function () {
+                                    //layer.msg("列表加载完成");
+                               }, 
+
+
+                               onCheck:function(row){
+                                    // $("#qClassify_deletes").removeAttr('disabled');
+                               },
+
+
+                               onUncheck:function(row){
+                                  console.log(row);       
+                               },
+
+
+                               onCheckAll:function(rows){
+                                    // $("#qClassify_deletes").removeAttr('disabled');
+                               }, 
+
+
+                               onUncheckAll: function (rows) {
+                                    console.log(rows);
+                               },
+
+                        });
+
+                    }
+
+
+
+                    //批量删除按钮权限
+                    if(arr_authList.indexOf('/admin/qbCategory/delete.do') != -1){
+                         $("#qClassify_deletes").show();
+                    }else{
+                        $("#qClassify_deletes").hide();
+                    }
+
+                    //添加按钮权限
+                    if(arr_authList.indexOf('/admin/qbCategory/add.do') != -1){
+                         $("#add_qClassify").show();
+                    }else{
+                        $("#add_qClassify").hide();
+                    }
+
+
+                }else if(data.code == 201){
+                    art.dialog({
+                        content: data.msg,
+                        cancel: false,
+                        fixed: true,
+                        lock: true,
+                        width: 200,
+                        ok: function() {},
+                    });
+                }
+            },
+            error: function(error) {
+                alert(error);
+                setTimeout(function () {
+                   window.location.href = "/login.html";
+               }, 1500);
+            }
+        });
+
+
+
+
+
+
+        //添加题库分类
+        $("#add_qClassify").click(function(event) {
+            $('#addqClassifyModal').modal('show');
+            $("#addqClassify_name").val("");
+        });
+
+
+
+        //保存添加题库分类
+        $("#addqClassifyModal_save").click(function(event) {
+            var addqClassify_name = $("#addqClassify_name").val();
+            $.ajax({
+                url: domainUrl + 'admin/qbCategory/add.do',
+                type: "POST",
+                dataType: "json",
+                data: {token: token,name:addqClassify_name},
+                success:function (data) {
+                    if (data.code == 200) {
+                        art.dialog({
+                            content:data.msg,
+                            fixed: true,
+                            lock: true,
+                            width: 200,
+                            cancel:false,
+                            ok: function () {
+                                $('#addqClassifyModal').modal('hide');
+                                $("#table-data").bootstrapTable('refresh'); 
+                            }
+                        });
+                    }else if(data.code == 201){
+                        art.dialog({
+                            content:data.msg,
+                            cancel:false,
+                            fixed: true,
+                            lock: true,
+                            width: 200,
+                            ok: function () {},
+                        });
+                    }
+                },
+                error: function(error) {
+                    art.dialog({
+                        content:error,
+                        cancel:false,
+                        fixed: true,
+                        lock: true,
+                        width: 200,
+                        ok: function () {
+                            setTimeout(function () {
+                               window.location.href = "/login.html";
+                            }, 1500);
+                        },
+                    });
+                }
+            });
+        });
+
+
+
+        //批量删除事件
+        $("#qClassify_deletes").click(function(event) {
+            var $table = $("#table-data");
+            console.log(getIdSelections($table));
+            if(getIdSelections($table).length == 0){
+                art.dialog({
+                    content:"请至少选中一行数据",
+                    cancel:false,
+                    fixed: true,
+                    lock: true,
+                    width: 200,
+                    ok: function () {},
+                });
+            }else{
+                console.log(getIdSelections($table).join(','));
+                var ids = getIdSelections($table).join(',');
+                art.dialog({
+                    content:"确定要删除所选数据？",
+                    ok: function () {
+                        $.ajax({
+                            url: domainUrl + 'admin/qbCategory/delete.do',
+                            type: "POST",
+                            dataType: "json",
+                            data: {token: token,ids:ids},
+                            success:function (data) {
+                                if (data.code == 200) {
+                                    art.dialog({
+                                        content:data.msg,
+                                        cancel:false,
+                                        fixed: true,
+                                        lock: true,
+                                        width: 200,
+                                        ok: function () {
+                                            $("#table-data").bootstrapTable('refresh'); 
+                                        },
+                                    });
+                                }else if(data.code == 201){
+                                    art.dialog({
+                                        content:data.msg,
+                                        cancel:false,
+                                        fixed: true,
+                                        lock: true,
+                                        width: 200,
+                                        ok: function () {},
+                                    });
+                                }
+                            },
+                            error: function(error) {
+                                art.dialog({
+                                    content:error,
+                                    cancel:false,
+                                    fixed: true,
+                                    lock: true,
+                                    width: 200,
+                                    ok: function () {
+                                        setTimeout(function () {
+                                           window.location.href = "/login.html";
+                                        }, 1500);
+                                    },
+                                });
+                                
+                            }
+                        });
+                    },
+                    lock: true,
+                    width: 200,
+                    cancelValue: '取消',
+                    cancel:function(){},
+                });
+            }
+
+        });
+        
+        //保存编辑角色
+        $("#qClassifyModal_save").click(function(event) {
+            var e_id = $("#e_id").val();
+            var e_name = $("#e_name").val();
+            var e_priority = $("#e_priority").val();
+            $.ajax({
+                url: domainUrl + 'admin/qbCategory/edit.do',
+                type: "POST",
+                dataType: "json",
+                data: {token: token,id:e_id,name:e_name,priority:e_priority},
+                success:function (data) {
+                    if (data.code == 200) {
+                        art.dialog({
+                            content:data.msg,
+                            cancel:false,
+                            fixed: true,
+                            lock: true,
+                            width: 200,
+                            ok: function () {
+                                $('#qClassifyModal').modal('hide');
+                                $("#table-data").bootstrapTable('refresh'); 
+                            },
+                        });
+                    }else if(data.code == 201){
+                        art.dialog({
+                            content:data.msg,
+                            cancel:false,
+                            fixed: true,
+                            lock: true,
+                            width: 200,
+                            ok: function () {},
+                        });
+                    }
+                },
+                error: function(error) {
+                    art.dialog({
+                        content:error,
+                        cancel:false,
+                        fixed: true,
+                        lock: true,
+                        width: 200,
+                        ok: function () {
+                            setTimeout(function () {
+                               window.location.href = "/login.html";
+                            }, 1500);
+                        },
+                    });
+                }
+            });
+        });
+
+        //保存修改的显示顺序
+        $("#modifyPriorityModal_save").click(function(event) {
+            var priority = $("#e_priority").val();
+            var id = $("#e_priority_id").val();
+            $.ajax({
+                url: domainUrl + 'admin/qbCategory/priority.do',
+                type: "POST",
+                dataType: "json",
+                data: {token: token,id:id,priority:priority},
+                success:function (data) {
+                    if (data.code == 200) {
+                        art.dialog({
+                            content:data.msg,
+                            cancel:false,
+                            fixed: true,
+                            lock: true,
+                            width: 200,
+                            ok: function () {
+                                $('#modifyPriorityModal').modal('hide');
+                                $("#table-data").bootstrapTable('refresh'); 
+                            },
+                        });
+                    }else if(data.code == 201){
+                        art.dialog({
+                            content:data.msg,
+                            cancel:false,
+                            fixed: true,
+                            lock: true,
+                            width: 200,
+                            ok: function () {},
+                        });
+                    }
+                },
+                error: function(error) {
+                    art.dialog({
+                        content:error,
+                        cancel:false,
+                        fixed: true,
+                        lock: true,
+                        width: 200,
+                        ok: function () {
+                            setTimeout(function () {
+                               window.location.href = "/login.html";
+                            }, 1500);
+                        },
+                    });
+                }
+            });
+        });
+   });
+
+
+  function operateFormatter(value, row, index) {
+        var rowedit_html = "";
+        var rowdelete_html = "";
+        var rowdetails_html = "";
+        var rowmodifypriority_html = "";
+
+        if(arr_authList.indexOf('/admin/qbCategory/edit.do') != -1){
+            rowedit_html ='<i class="tbmr rowedit fa fa-edit" title="编辑"></i>';
+        }
+
+        if(arr_authList.indexOf('/admin/qbCategory/delete.do') != -1){
+            rowdelete_html ='<i class="tbmr rowdelete fa fa-trash" title="删除"></i>';
+        }
+
+        if(arr_authList.indexOf('/admin/qbCategory/get.do') != -1){
+            rowdetails_html ='<i class="tbmr rowdetails fa fa-info-circle" title="详情"></i>';
+        }
+
+
+        if(arr_authList.indexOf('/admin/qbCategory/priority.do') != -1){
+            rowmodifypriority_html ='<i class="tbmr rowmodifypriority fa fa-pencil-alt" title="修改题库分类显示顺序"></i>';
+        }
+
+
+        return [
+            rowedit_html,
+            rowdelete_html,
+            rowdetails_html,
+            rowmodifypriority_html,
+        ].join('');
+   }
+
+   window.operateEvents = {
+        'click .rowdelete': function(e, value, row, index) { //单独删除角色
+            art.dialog({
+                content:"确定要删除本条数据？",
+                ok: function () {
+                    var ids = new Array();
+                    ids.push(row.id);
+                    $.ajax({
+                        url: domainUrl + 'admin/qbCategory/delete.do',
+                        type: "POST",
+                        dataType: "json",
+                        data: {token: token,ids:ids.join(',')},
+                        success:function (data) {
+                            if (data.code == 200) {
+                                art.dialog({
+                                    content:data.msg,
+                                    cancel:false,
+                                    fixed: true,
+                                    lock: true,
+                                    width: 200,
+                                    ok: function () {
+                                        $("#table-data").bootstrapTable('refresh'); 
+                                    },
+                                });
+                            }else if(data.code == 201){
+                                art.dialog({
+                                    content:data.msg,
+                                    cancel:false,
+                                    fixed: true,
+                                    lock: true,
+                                    width: 200,
+                                    ok: function () {},
+                                });
+                            }
+                        },
+                        error: function(error) {
+                            art.dialog({
+                                content:error,
+                                cancel:false,
+                                fixed: true,
+                                lock: true,
+                                width: 200,
+                                ok: function () {
+                                    setTimeout(function () {
+                                       window.location.href = "/login.html";
+                                    }, 1500);
+                                },
+                            });
+                            
+                        }
+                    });
+                },
+                lock: true,
+                width: 200,
+                cancelValue: '取消',
+                cancel:function(){},
+            });
+        },
+        'click .rowedit': function(e, value, row, index) { //单独编辑
+            $("#e_id").attr("value",row.id);
+            $("#e_name").val(row.name);
+            $("#e_priority").val(row.priority);
+            $("#qClassifyModal").modal('show');
+        },
+        'click .rowdetails': function(e, value, row, index) { //查看详情
+            var id = row.id;
+            $.ajax({
+                url: domainUrl + 'admin/qbCategory/get.do',
+                type: "POST",
+                dataType: "json",
+                data: {token: token,id:id},
+                success:function (data) {
+                    if (data.code == 200) {
+                        $("#e_details_id").attr("value",data.data.id);
+                        $("#e_details_name").attr("value",data.data.name);
+                        $("#e_details_priority").attr("value",data.data.priority);
+                        $("#detailsModal").modal('show');
+                    }else if(data.code == 201){
+                        art.dialog({
+                            content:data.msg,
+                            cancel:false,
+                            fixed: true,
+                            lock: true,
+                            width: 200,
+                            ok: function () {},
+                        });
+                    }
+                },
+                error: function(error) {
+                    art.dialog({
+                        content:error,
+                        cancel:false,
+                        fixed: true,
+                        lock: true,
+                        width: 200,
+                        ok: function () {
+                            setTimeout(function () {
+                               window.location.href = "/login.html";
+                            }, 1500);
+                        },
+                    });
+                    
+                }
+            });
+        },
+        'click .rowmodifypriority': function(e, value, row, index) { //修改题库分类显示顺序
+            $("#e_qClssifypriority_id").attr("value",row.id);
+            $("#e_qClssifypriority").val(row.priority);
+            $("#modifyPriorityModal").modal('show');
+        },
+   }
+
+
+
+
+
+</script>
+
+
+</body>
+</html>

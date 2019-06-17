@@ -1,0 +1,56 @@
+.checkbox-custom {
+    position: relative;
+    margin-bottom: 0;
+    left: -10px;
+    top: -16px;
+}
+/*
+将初始的checkbox的样式改变
+*/
+.checkbox-custom input[type="checkbox"] {
+    opacity: 0;/*将初始的checkbox隐藏起来*/
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+/*
+点击初始的checkbox，将新的checkbox关联起来
+*/
+.checkbox-custom input[type="checkbox"]:checked + span {
+    background: url(imgs/blue.png) 0 0 no-repeat;
+    background-position: -22px 0;
+    width: 20px;
+    height: 20px;
+}
+.checkbox-custom span {
+    position: absolute;
+    top: 0;
+    left: 0;
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    background: url(imgs/blue.png) 0 0 no-repeat;
+    background-position: 0 0;
+}
+.checkbox-custom input[disabled="disabled"]:checked + span {
+    background: url(imgs/blue.png) 0 0 no-repeat;
+    background-position: -66px 0;
+    width: 20px;
+    height: 20px;
+}
+.checkbox-custom input[disabled="disabled"]+span {
+    position: absolute;
+    top: 0;
+    left: 0;
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    background: url(imgs/blue.png) 0 0 no-repeat;
+    background-position: -44px 0;
+}

@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>登录</title>
+    <link rel="stylesheet" href="/resources/vendor/simple-line-icons/css/simple-line-icons.css">
+    <link rel="stylesheet" href="/resources/vendor/font-awesome/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="/resources/css/styles.css">
+</head>
+<body>
+<div class="page-wrapper flex-row align-items-center">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-5">
+                <div class="card p-4">
+                    <div class="card-header text-center text-uppercase h4 font-weight-light">
+                        登录
+                    </div>
+
+                    <div class="card-body py-5">
+                        <div class="form-group">
+                            <label class="form-control-label">账号</label>
+                            <input type="name" class="form-control" id="account" placeholder="请输入账号">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-control-label">密码</label>
+                            <input type="password" class="form-control" id="password" placeholder="请输入密码">
+                        </div>
+
+                        <div class="custom-control custom-checkbox mt-4">
+                            <input type="checkbox" class="custom-control-input" id="login_ck">
+                            <label class="custom-control-label" for="login_ck">记住我</label>
+                        </div>
+                    </div>
+
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col-6">
+                                <button type="button" class="btn btn-primary px-5" id="sign_inB">登录</button>
+                            </div>
+
+                            <div class="col-6 text-right">
+                                <a href="register.html" class="btn btn-link">去注册&gt;</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/resources/vendor/jquery/jquery.min.js"></script>
+<script src="/resources/vendor/popper.js/popper.min.js"></script>
+<script src="/resources/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="/resources/vendor/cookie/jquery.cookie.js"></script>
+<script src="/resources/vendor/md5/md5.js"></script>
+<script src='/resources/js/port.js'></script>
+<script src="/resources/js/carbon.js"></script>
+
+
+<script>
+    $(function(){
+        //获取cookie
+        getCookie();
+        $("#sign_inB").click(function(event) {
+            var account = $("#account").val();
+            var password = $("#password").val();
+            if($.trim(account).length == 0){
+                alert("请输入用户名");
+                return;
+            }
+            if($.trim(password).length == 0){
+                alert("请输入密码");
+                return;
+            }
+            $.ajax({
+                url: domainUrl + 'admin/login.do',
+                type: "POST",
+                dataType: "json",
+                data: {account: account, password:hex_md5(password)},
+                success:function (data) {
+                    if (data.code == 200) {
+                        alert(data.msg);
+                        var token = data.token;
+                        // var inFifteenMinutes = new Date(new Date().getTime() + 8 * 60 * 60 * 1000);
+                        $.cookie('token', '', { expires: -1 });
+                        $.cookie('token', token, { expires: 7});
+                        setCookie();
+                        window.location.href = "/index.html";
+                    }else{
+                        alert(data.msg);
+                    }
+                },
+                error: function(error) {
+                    alert(error);
+                }
+            });
+        });
+    });
+
+
+
+    function setCookie(){ //设置cookie
+        var account = $("#account").val();
+        var password = $("#password").val();
+        if($("#login_ck").is(":checked")){
+            $.cookie('account', account, { expires: 7});
+            $.cookie('password', password, { expires: 7});
+        }else{
+            $.cookie('account', null);
+            $.cookie('password', null);
+            $("#account").val("");
+            $("#password").val("");
+        }
+    }
+
+
+
+    function getCookie(){ //获取cookie
+        var account = $.cookie('account');
+        var password = $.cookie('password');
+        console.log("account:"+account);
+        console.log("password:"+password);
+        if(account != "null"){
+            $("#account").val(account);
+        }
+        if(password != "null"){
+            $("#login_ck").attr("checked","true");
+            $("#password").val(password);
+        }
+
+        $("#login_ck").attr('checked',true); //复选框一直被选中
+    }
+</script>
+</body>
+</html>

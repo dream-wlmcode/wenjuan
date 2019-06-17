@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>角色管理列表</title>
+    <link rel="stylesheet" href="/resources/vendor/bootstrap-table/bootstrap-table.min.css">
+    <link rel="stylesheet" href="/resources/vendor/simple-line-icons/css/simple-line-icons.css">
+    <link rel="stylesheet" href="/resources/vendor/font-awesome/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="/resources/css/styles.css">
+    <link rel="stylesheet" href="/resources/vendor/Checkboxes/custom.css">
+    <link rel="stylesheet" href="/resources/vendor/artDialog/css/dialog.css">
+    <link rel="stylesheet" href="/resources/vendor/bootstrap-zTree/css/bootstrapStyle/bootstrapStyle.css">
+    <link rel="stylesheet" href="/resources/css/main.css">
+</head>
+<body class="sidebar-fixed header-fixed">
+<div class="page-wrapper">
+    <!-- 头部菜单 s-->
+    <nav class="navbar page-header">
+        <a href="#" class="btn btn-link sidebar-mobile-toggle d-md-none mr-auto">
+            <i class="fa fa-bars"></i>
+        </a>
+
+        <a class="navbar-brand" href="#">
+            <img src="/resources/imgs/logo.png" alt="logo">
+        </a>
+
+        <a href="#" class="btn btn-link sidebar-toggle d-md-down-none">
+            <i class="fa fa-bars"></i>
+        </a>
+
+        <ul class="navbar-nav ml-auto">
+            
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img src="/resources/imgs/avatar-1.png" class="avatar avatar-sm" alt="logo">
+                    <span class="small ml-1 d-md-down-none" id="nav-account"></span>
+                </a>
+
+                <div class="dropdown-menu dropdown-menu-right">
+                    <div class="dropdown-header">设置</div>
+
+                    <a href="#" class="dropdown-item">
+                        <i class="fa fa-wrench"></i> 设置
+                    </a>
+
+                    <a href="#" class="dropdown-item" id="logout">
+                        <i class="fa fa-lock"></i> 退出
+                    </a>
+                </div>
+            </li>
+        </ul>
+    </nav>
+    <!-- 头部菜单 e-->
+
+    <div class="main-container">
+
+        <!-- 左边菜单 s -->
+        <div class="sidebar">
+            <nav class="sidebar-nav">
+                <ul class="nav" id="menu-list">
+                </ul>
+            </nav>
+        </div>
+        <!-- 左边菜单 e -->
+
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header bg-light">
+                                角色管理
+                            </div>
+                            <div class="card-body">
+                                    
+                                <!-- 过滤框 -->
+                                <form class="form-inline">
+                                  <div class="form-group  mb-2">
+                                    <input type="text" class="form-control" id="searchText" placeholder="请输入名称或内容关键字...">
+                                  </div>
+                                  <button type="button" class="btn btn-primary mx-sm-3 mb-2" id="searchButton">搜索
+                                  </button>
+                                </form>
+                                
+
+                                <div class="table-responsive">
+                                    <div id="toolbar">
+                                        <button type="button" 
+                                        class="btn btn-info btn-sm" id="add_js">
+                                            <i class="fa fa-plus"></i> 
+                                            &nbsp; 添加
+                                        </button>
+                                        <!-- disabled -->
+                                        <button type="button" 
+                                        class="btn btn-danger btn-sm" id="js_deletes" >
+                                            <i class="fa fa-trash"></i> 
+                                            &nbsp; 批量删除
+                                        </button>
+                                    </div>
+
+                                    <table class="table table-bordered  table-striped table-hover" id="table-data">
+                                        <!-- <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Name</th>
+                                            <th>Sales</th>
+                                            <th>Price</th>
+                                            <th>Discount</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>1</td>
+                                            <td class="text-nowrap">Samsung Galaxy S8</td>
+                                            <td>31,589</td>
+                                            <td>$800</td>
+                                            <td>5%</td>
+                                        </tr>
+                                        </tbody> -->
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 角色编辑 s -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editModalLabel">编辑角色</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+           <form>
+              <div class="form-group row">
+                <label for="e_name" class="col-sm-3 col-form-label text-right px-sm-0">角色名称：</label>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" id="e_name" placeholder="请输入角色名称">
+                </div>
+              </div>
+            </form>
+      </div>
+      <div class="modal-footer">
+        <input type="hidden" id="e_id" />
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary" id="editModal_save">保存</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 角色编辑 e -->
+
+
+<!-- 添加角色 s -->
+<div class="modal fade" id="addjsModal" tabindex="-1" role="dialog" aria-labelledby="addjsModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addjsModalLabel">添加角色</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+           <form>
+              <div class="form-group row">
+                <label for="addjs_name" class="col-sm-3 col-form-label text-right px-sm-0">角色名称：</label>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" id="addjs_name" placeholder="请输入角色名称">
+                </div>
+              </div>
+            </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary" id="addjsModal_save">保存</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 添加角色 e -->
+
+
+
+
+
+<!-- 设置权限 s -->
+<div class="modal fade" id="setKeyModal" tabindex="-1" role="dialog" aria-labelledby="setKeyModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="setKeyModalLabel">设置权限</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+            <div class="ztree" id="treeSetKey"></div>
+      </div>
+      <div class="modal-footer">
+        <input type="hidden" id="get_jsid">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary" id="setKeyModal_ok">确认</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 设置权限 e -->
+
+
+<!-- 详情 s -->
+<div class="modal fade" id="detailsModal" tabindex="-1" role="dialog" aria-labelledby="detailsModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="detailsModalLabel">角色详情</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+           <form>
+              <div class="form-group row">
+                <label for="e_details_id" class="col-sm-3 col-form-label text-right px-sm-0">权限ID：</label>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" id="e_details_id" readonly="true">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="e_details_name" class="col-sm-3 col-form-label text-right px-sm-0">名称：</label>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" id="e_details_name" readonly="true">
+                </div>
+              </div>
+            </form>
+
+
+            <div class="card" id="authList_card">
+              <div class="card-header bg-light">权限列表</div>
+              <div class="card-body">
+                  <div class="table-responsive">
+                      <table class="table table-bordered  table-striped table-hover text-nowrap" id="roleAuthList_Details-table">
+                        <thead>
+                          <tr>
+                            <th>权限ID</th>
+                            <th>权限名称</th>
+                            <th>权限父ID</th>
+                          </tr>
+                        </thead>
+                        <tbody></tbody>  
+                      </table>
+                  </div>
+              </div>
+            </div>
+
+
+
+            <div class="card" id="navList_card">
+              <div class="card-header bg-light">导航列表</div>
+              <div class="card-body">
+                  <div class="table-responsive">
+                      <table class="table table-bordered  table-striped table-hover text-nowrap" id="roleNavList_Details-table">
+                        <thead>
+                          <tr>
+                            <th>导航ID</th>
+                            <th>导航名称</th>
+                            <th>导航父ID</th>
+                          </tr>
+                        </thead>
+                        <tbody></tbody>  
+                      </table>
+                  </div>
+              </div>
+            </div>
+
+
+            
+      </div>
+      <div class="modal-footer">
+        <input type="hidden" id="e_details_id" />
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 详情 e -->
+
+
+<!-- 设置导航 s -->
+<div class="modal fade" id="setNavModal" tabindex="-1" role="dialog" aria-labelledby="setNavModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="setNavModalLabel">设置导航</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- 过滤框 -->
+        <!-- <form class="form-inline">
+          <div class="form-group mb-2">
+            <input type="text" class="form-control" id="setNavSearchText" placeholder="请输入名称或内容关键字...">
+          </div>
+          <button type="button" class="btn btn-primary mx-sm-3 mb-2" id="setNavSearch">搜索</button>
+        </form>
+        <div class="table-responsive">
+           <table class="table table-bordered  table-striped table-hover" id="setNav-table"></table>
+        </div> -->
+        <div class="ztree" id="treeSetNav"></div>
+      </div>
+      <div class="modal-footer">
+        <input type="hidden" id="get_jsid2">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary" id="setNavModal_ok">确认</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 设置导航 e -->
+
+
+
+<script src="/resources/vendor/jquery/jquery.min.js"></script>
+<script src="/resources/vendor/popper.js/popper.min.js"></script>
+<script src="/resources/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="/resources/vendor/bootstrap-table/bootstrap-table.min.js"></script>
+<script src="/resources/vendor/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+<script src="/resources/vendor/cookie/jquery.cookie.js"></script>
+<script src="/resources/vendor/artDialog/js/artDialog.js"></script>
+<script src="/resources/vendor/artDialog/js/sh_languages.js"></script>
+<!-- zTree s -->
+<script type="text/javascript" src="/resources/vendor/bootstrap-zTree/js/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="/resources/vendor/bootstrap-zTree/js/jquery.ztree.excheck.js"></script>
+<script type="text/javascript" src="/resources/vendor/bootstrap-zTree/js/jquery.ztree.exedit.js"></script>
+<!-- zTree e -->
+<script src='/resources/js/port.js'></script>
+<script src="/resources/js/carbon.js"></script>
+<script src="/resources/js/common.js"></script>
+<script src="/resources/js/jquery.initTable.js"></script>
+<script src="/resources/js/roleManagement.js"></script>
+
+</body>
+</html>

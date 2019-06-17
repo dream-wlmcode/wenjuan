@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>注册</title>
+    <link rel="stylesheet" href="/resources/vendor/simple-line-icons/css/simple-line-icons.css">
+    <link rel="stylesheet" href="/resources/vendor/font-awesome/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="/resources/css/styles.css">
+</head>
+<body>
+<div class="page-wrapper flex-row align-items-center">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-5">
+                <div class="card p-4">
+                    <div class="card-header text-center text-uppercase h4 font-weight-light">
+                        注册
+                    </div>
+
+                    <div class="card-body py-5">
+                        <div class="form-group">
+                            <label class="form-control-label">账号</label>
+                            <input type="name" placeholder="请输入账号" class="form-control" id="account">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-control-label">密码</label>
+                            <input type="password" placeholder="请输入密码" class="form-control" id="password">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-control-label">授权码</label>
+                            <input type="text" placeholder="请输入授权码" class="form-control" id="authCode">
+                        </div>
+                    </div>
+
+                    <div class="card-footer">
+                        <button type="button" class="btn btn-success btn-block" id="register_id">注册</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/resources/vendor/jquery/jquery.min.js"></script>
+<script src="/resources/vendor/popper.js/popper.min.js"></script>
+<script src="/resources/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="/resources/vendor/md5/md5.js"></script>
+<script src='/resources/js/port.js'></script>
+<script src="/resources/js/carbon.js"></script>
+
+
+<script>
+    $(function(){
+        $("#register_id").click(function(event) {
+            var account = $("#account").val();
+            var password = $("#password").val();
+            var authCode = $("#authCode").val();
+            if($.trim(account).length == 0){
+                alert("请输入用户名");
+                return;
+            }
+            if($.trim(password).length == 0){
+                alert("请输入密码");
+                return;
+            }
+            if($.trim(authCode).length == 0){
+                alert("请输入授权码");
+                return;
+            }
+
+
+            $.ajax({
+                url: domainUrl + 'admin/register.do',
+                type: "POST",
+                dataType: "json",
+                data: {account: account,password:hex_md5(password),authCode:authCode},
+                success:function (data) {
+                    if (data.code == 200) {
+                        alert(data.msg);
+                    }else{
+                        alert(data.msg);
+                    }
+                },
+                error: function(error) {
+                    alert(error);
+                }
+            });
+
+
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <META HTTP-EQUIV="Cache-Control" CONTENT= "no-cache, must-revalidate"> 
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>授予管理员角色</title>
+    <link rel="stylesheet" href="/resources/vendor/bootstrap-table/bootstrap-table.min.css">
+   <!--  <link rel="stylesheet" href="/resources/vendor/bootstrap-table-fixed-columns/css/bootstrap-table-fixed-columns.css"> -->
+    <link rel="stylesheet" href="/resources/vendor/simple-line-icons/css/simple-line-icons.css">
+    <link rel="stylesheet" href="/resources/vendor/font-awesome/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="/resources/css/styles.css">
+    <link rel="stylesheet" href="/resources/vendor/jquery-treegrid/css/jquery.treegrid.min.css">
+    <link rel="stylesheet" href="/resources/vendor/Checkboxes/custom.css">
+    <link rel="stylesheet" href="/resources/vendor/artDialog/css/dialog.css">
+    <link rel="stylesheet" href="/resources/vendor/bootstrap-zTree/css/bootstrapStyle/bootstrapStyle.css">
+    <link rel="stylesheet" href="/resources/vendor/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" href="/resources/css/main.css">
+    <link rel="stylesheet" href="/resources/css/iframe.css">
+</head>
+    
+<body class="sidebar-fixed header-fixed" id="bodyObj">
+  <div class="row">
+    <div class="col-md-5">
+          <!-- 过滤框 -->
+          <form class="form-inline">
+            <div class="form-group  mb-2">
+              <input type="text" class="form-control" id="searchText" placeholder="请输入名称或内容关键字...">
+            </div>
+            <button type="button" class="btn btn-primary mx-sm-3 mb-2" id="searchButton">搜索
+            </button>
+          </form>
+                                        
+
+          <div class="table-responsive">
+              <div id="toolbar">
+                <button type="button" class="btn btn-info btn-sm hide" id="add_usersRBtn">
+                  <i class="fa fa-plus"></i> 
+                  &nbsp; 授予管理员角色
+                </button>
+              </div>
+              <table class="table table-bordered  table-striped table-hover table-hit" id="usersR-table-data">
+              </table>
+          </div>
+    </div>
+    <div class="col-md-7">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="card">
+              <div class="card-header bg-light">权限详情</div>
+              <div class="card-body">
+                <div class="ztree qxTree" id="qxTree"></div>
+              </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="card">
+              <div class="card-header bg-light">导航详情</div>
+              <div class="card-body">
+                <div class="ztree dhTree" id="dhTree"></div>
+              </div>
+          </div>
+        </div>
+      </div>
+      
+
+      
+    </div>
+  </div>
+
+
+
+  <!-- 角色列表 s -->
+  <div class="modal fade" id="roleListModal" tabindex="-1" role="dialog" aria-labelledby="roleListModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="roleListModalLabel">设置权限</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <!-- 过滤框 -->
+          <form class="form-inline">
+            <div class="form-group mb-2">
+              <input type="text" class="form-control" id="roleListSearchText" placeholder="请输入名称或内容关键字...">
+            </div>
+            <button type="button" class="btn btn-primary mx-sm-3 mb-2" id="roleListSearch">搜索</button>
+          </form>
+          <div class="table-responsive">
+             <table class="table table-bordered  table-striped table-hover" id="roleList-table"></table>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+          <button type="button" class="btn btn-primary" id="roleListModal_ok">确认</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- 角色列表 e -->
+  
+
+
+  <script src="/resources/vendor/jquery/jquery.min.js"></script>
+  <script src="/resources/vendor/popper.js/popper.min.js"></script>
+  <script src="/resources/vendor/bootstrap/js/bootstrap.min.js"></script>
+  <script src="/resources/vendor/bootstrap-table/bootstrap-table.min.js"></script>
+  <script src="/resources/vendor/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+  <!-- <script src="/resources/vendor/bootstrap-table-fixed-columns/js/bootstrap-table-fixed-columns.js"></script> -->
+  <script src="/resources/vendor/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+  <script src="/resources/vendor/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+  <script src="/resources/vendor/bootstrap-table/extensions/treegrid/bootstrap-table-treegrid.min.js"></script>
+  <script src="/resources/vendor/jquery-treegrid/js/jquery.treegrid.min.js"></script>
+  <script src="/resources/vendor/cookie/jquery.cookie.js"></script>
+  <script src="/resources/vendor/artDialog/js/artDialog.js"></script>
+  <script src="/resources/vendor/artDialog/js/sh_languages.js"></script>
+
+  <!-- zTree s -->
+  <script type="text/javascript" src="/resources/vendor/bootstrap-zTree/js/jquery.ztree.core.js"></script>
+  <script type="text/javascript" src="/resources/vendor/bootstrap-zTree/js/jquery.ztree.excheck.js"></script>
+  <script type="text/javascript" src="/resources/vendor/bootstrap-zTree/js/jquery.ztree.exedit.js"></script>
+  <!-- zTree e -->
+
+
+  <script src='/resources/js/port.js'></script>
+  <script src="/resources/js/carbon.js"></script>
+  <script src="/resources/js/common.js"></script>
+  <script src="/resources/js/jquery.initTable.js"></script>
+  <script src="/resources/js/usersRoles.js"></script>
+</body>

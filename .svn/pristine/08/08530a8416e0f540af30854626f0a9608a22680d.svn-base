@@ -1,0 +1,93 @@
+body{
+	overflow-x:hidden;
+	overflow-y:auto;
+	background-color: #fff;
+}
+
+/*题目列表 s*/
+.timu_List{
+    margin-top: 20px;
+}
+.timu_List .timu_empty{
+    color: #777;
+}
+.timu_List .timu_box{
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #dee2e6;
+}
+.timu_List .timu_box:nth-last-child(1){
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+.timu_List .timu_box .timu_title{
+	font-size: 14px;
+    font-weight: bold;
+    line-height: 20px;
+    margin-bottom: 8px;
+}
+.timu_List .timu_box .timu_title .ismust{
+    margin-bottom: 0;
+    color: #ef5350;
+    cursor: pointer;
+    -moz-user-select:none;/*火狐*/
+    -webkit-user-select:none;/*webkit浏览器*/
+    -ms-user-select:none;/*IE10*/
+    -khtml-user-select:none;/*早期浏览器*/
+    user-select:none;
+}
+.timu_List .timu_box .timu_title .ismust .msck{
+    vertical-align: middle;
+    margin-left: 2px;
+    margin-bottom: 2px;
+}
+.timu_List .timu_box .timu_dry{
+    margin-left: 20px;
+}
+.timu_List .timu_box .timu_dry .timu_items{
+	position: relative;
+    font-size: 13px;
+    color: #333;
+    line-height: 32px;
+    display: flex;
+    display: -webkit-flex;
+    align-items: center;
+
+    display: block;
+    line-height: 1.4;
+    margin-bottom: 6px;
+}
+.timu_List .timu_items .radio_type {
+    flex: 0 0 auto;
+    position: absolute;
+    top: 4px;
+    width: 12px;
+    height: 12px;
+    border: 1px solid #666;
+    border-radius: 50%;
+}
+.timu_List .timu_items .checkbox_type {
+    flex: 0 0 auto;
+    position: absolute;
+    top: 4px;
+    width: 12px;
+    height: 12px;
+    border: 1px solid #666;
+}
+.timu_List .timu_items label {
+    margin-left: 18px;
+    margin-bottom: 0;
+}
+.timu_List .timu_opernDiv{
+    margin-left: 20px;
+}
+.timu_List .timu_opernDiv .obtn{
+   margin-right: 10px;
+}
+.timu_List .timu_opernDiv .obtn:nth-last-child(1){
+    margin-right: 0;
+}
+/*题目列表 e*/
+
+

@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>登录</title>
+    <link rel="stylesheet" href="/resources/vendor/simple-line-icons/css/simple-line-icons.css">
+    <link rel="stylesheet" href="/resources/vendor/font-awesome/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="/resources/css/styles.css">
+    <link rel="stylesheet" href="/resources/vendor/artDialog/css/dialog.css">
+</head>
+<body>
+<div class="page-wrapper flex-row align-items-center">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-5">
+                <div class="card p-4">
+                    <div class="card-header text-center text-uppercase h4 font-weight-light">
+                        登录
+                    </div>
+
+                    <div class="card-body py-5">
+                        <div class="form-group">
+                            <label class="form-control-label">账号</label>
+                            <input type="name" class="form-control" id="account" placeholder="请输入账号">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-control-label">密码</label>
+                            <input type="password" class="form-control password" autocomplete="new-password" placeholder="请输入密码">
+                        </div>
+
+                        <div class="custom-control custom-checkbox mt-4">
+                            <input type="checkbox" class="custom-control-input" id="login_ck">
+                            <label class="custom-control-label" for="login_ck">记住我</label>
+                        </div>
+                    </div>
+
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col-6">
+                                <button type="button" class="btn btn-primary px-5" id="sign_inB">登录</button>
+                            </div>
+
+                            <div class="col-6 text-right">
+                                <a href="/register.html" class="btn btn-link">去注册&gt;</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/resources/vendor/jquery/jquery.min.js"></script>
+<script src="/resources/vendor/popper.js/popper.min.js"></script>
+<script src="/resources/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="/resources/vendor/cookie/jquery.cookie.js"></script>
+<script src="/resources/vendor/artDialog/js/artDialog.js"></script>
+<script src="/resources/vendor/artDialog/js/sh_languages.js"></script>
+<script src="/resources/vendor/md5/md5.js"></script>
+<script src='/resources/js/port.js'></script>
+<script src="/resources/js/carbon.js"></script>
+<script src="/resources/js/login.js"></script>
+</body>
+</html>

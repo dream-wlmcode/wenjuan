@@ -1,0 +1,110 @@
+textarea{
+	resize: none;
+}
+select{
+	border:none;
+	appearance:none;
+	-moz-appearance:none;
+	-webkit-appearance:none;
+	-ms-appearance:none;
+	background:url('../imgs/arrow.png') no-repeat; 
+	background-position: 98% center;
+}
+.show{
+	display: block;
+}
+.in_show{
+	display: inline-block;
+}
+.hide{
+	display: none;
+}
+.sidebar .nav-title{
+    visibility: hidden;
+}
+.select_Box .card{
+	margin-bottom: 0;
+}
+.card .card-header .card-texts.card-texts-tips{
+	color: #ef5350;
+}
+.coningroup:nth-last-child(1){
+	margin-bottom: 0!important;
+}
+.coningroup .minus,
+.coningroup .plus{
+	text-align: center;
+	width: 35.58px;
+	cursor: pointer;
+}
+.selectTable{
+	position: relative;
+}
+.selectTable input.maintxt{
+	cursor: pointer;
+}
+.selectTable .downtb{
+	width: 16px;
+	height: 16px;
+	background:url('../imgs/arrow.png') no-repeat; 
+    position: absolute;
+    top: 10px;
+    right: 5px;
+}
+.selectTable .selectCot{
+	z-index: 99999999;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 20px;
+    width: 600px;
+	position: absolute;
+	left: 0;
+	display: none;
+}
+.selectTable .selectCot .fircell{
+	width: 100%;
+}
+.selectTable .xltable tbody tr{
+	cursor: pointer;
+}
+/*.table{
+    table-layout: fixed;
+
+} */
+.table .tbmr{
+	cursor: pointer;
+	margin-right: 10px;
+}
+.table .tbmr:nth-last-child(1){
+	margin-right: 0;
+}
+.table .rowdelete{
+	color:#ef5350;
+}
+.table .rowsetdefault.default{
+	color:#42a5f5;
+}
+.table .rowkeyis{
+	font-size: 16px;
+	font-weight: bold;
+	margin-right: 5px;
+	color: #ffca28;
+}
+.form-check-hllist.form-check{
+	padding-left: 0;
+}
+.form-check-hllist.form-check .checkbox-custom{
+	left: 0;
+	top: 0;
+}
+
+
+
+@media (min-width:992px) {
+	.modalpx1000 {
+		max-width: 1000px
+	}
+	.modalpx1200 {
+		max-width: 1200px
+	}
+}

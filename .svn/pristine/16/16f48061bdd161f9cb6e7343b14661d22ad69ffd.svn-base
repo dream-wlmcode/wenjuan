@@ -1,0 +1,405 @@
+<!doctype html>
+<html dir="ltr" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>个人中心</title>
+    <link rel="stylesheet" href="/resources/vendor/bootstrap-table/bootstrap-table.min.css">
+    <link rel="stylesheet" href="/resources/vendor/simple-line-icons/css/simple-line-icons.css">
+    <link rel="stylesheet" href="/resources/vendor/font-awesome/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="/resources/css/distance.css">
+    <link rel="stylesheet" href="/resources/css/styles.css">
+    <link rel="stylesheet" href="/resources/vendor/Checkboxes/custom.css">
+    <link rel="stylesheet" href="/resources/vendor/artDialog/css/dialog.css">
+    <!-- <link rel="stylesheet" href="/resources/vendor/select2/css/select2.min.css"> -->
+
+    
+    <link rel="stylesheet" href="/resources/css/main.css">
+</head>
+<body class="sidebar-fixed header-fixed">
+<div class="page-wrapper">
+    <!-- 头部菜单 s-->
+    <nav class="navbar page-header">
+        <a href="#" class="btn btn-link sidebar-mobile-toggle d-md-none mr-auto">
+            <i class="fa fa-bars"></i>
+        </a>
+
+        <a class="navbar-brand" href="#">
+            <img src="/resources/imgs/logo.png" alt="logo">
+        </a>
+
+        <a href="#" class="btn btn-link sidebar-toggle d-md-down-none">
+            <i class="fa fa-bars"></i>
+        </a>
+
+        <ul class="navbar-nav ml-auto">
+            
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img src="/resources/imgs/avatar-1.png" class="avatar avatar-sm" alt="logo">
+                    <span class="small ml-1 d-md-down-none" id="nav-account"></span>
+                </a>
+
+                <div class="dropdown-menu dropdown-menu-right">
+                    <div class="dropdown-header">设置</div>
+
+                    <!-- <a href="#" class="dropdown-item">
+                        <i class="fa fa-wrench"></i> 设置
+                    </a> -->
+
+                    <a href="/pages/personalCenter.html" class="dropdown-item">
+                        <i class="fa fa-user-circle"></i> 个人中心
+                    </a>
+
+                    <a href="/pages/personalCenter.html" class="dropdown-item">
+                        <i class="fa fa-edit"></i> 修改密码
+                    </a>
+
+                    <a href="#" class="dropdown-item" id="logout">
+                        <i class="fa fa-lock"></i> 退出
+                    </a>
+                </div>
+            </li>
+        </ul>
+    </nav>
+    <!-- 头部菜单 e-->
+
+    <div class="main-container">
+
+        <!-- 左边菜单 s -->
+        <div class="sidebar">
+            <nav class="sidebar-nav">
+                <ul class="nav" id="menu-list">
+                </ul>
+            </nav>
+        </div>
+        <!-- 左边菜单 e -->
+
+        <div class="content perCenter-content">
+            <div class="container-fluid">
+                 <div class="row">
+                     <!-- Column -->
+                     <div class="col-lg-4 col-xlg-3 col-md-5">
+                      <div class="card">
+                       <div class="card-body">
+                        <center class="m-t-30">
+                          <img src="/resources/imgs/avatar-1.png" class="rounded-circle" width="150" />
+                          <h4 class="card-title m-t-10 card-title-adminN" id="per_account"></h4>
+                        </center>
+                       </div>
+                       <div>
+                        <hr />
+                       </div>
+                       <div class="card-body">
+                        <small class="text-muted mtxt">姓名</small>
+                        <h6 class="cottxt" id="per_name"></h6>
+                        <small class="text-muted p-t-30 db mtxt">手机号码</small>
+                        <h6 class="cottxt" id="per_mobile"></h6>
+                       </div>
+                      </div>
+                     </div>
+                     <!-- Column -->
+                     <!-- Column -->
+                     <div class="col-lg-8 col-xlg-9 col-md-7">
+                      <div class="card">
+                       <!-- Tabs -->
+                       <ul class="nav nav-pills custom-pills" id="pills-tab" role="tablist">
+                          <li class="nav-item">
+                            <a class="nav-link active show" id="pills-timeline-tab" data-toggle="pill" 
+                            href="#modifyP" role="tab" aria-controls="pills-timeline" 
+                            aria-selected="true">修改密码</a>
+                          </li>
+
+                       </ul>
+                       <!-- Tabs -->
+                       <div class="tab-content none-mtbr-tabc" id="pills-tabContent">
+                          <div class="tab-pane fade active show" id="modifyP" role="tabpanel" aria-labelledby="pills-timeline-tab">
+                               <form class="form-horizontal form-material">
+                                   <div class="form-group">
+                                    <label class="col-md-12">旧密码</label>
+                                    <div class="col-md-12">
+                                     <input type="password" class="form-control form-control-line old_password" autocomplete="new-password"  minlength="6" maxlength="12" placeholder="请输入旧密码" />
+                                    </div>
+                                   </div>
+                                   <div class="form-group">
+                                    <label class="col-md-12">新密码</label>
+                                    <div class="col-md-12">
+                                     <input type="password" class="form-control form-control-line new_password" autocomplete="new-password"  minlength="6" maxlength="12" placeholder="请输入新密码" />
+                                    </div>
+                                   </div>
+                                   <div class="form-group">
+                                    <label class="col-md-12">确认密码</label>
+                                    <div class="col-md-12">
+                                     <input type="password" class="form-control form-control-line confirm_password" autocomplete="new-password" minlength="6" maxlength="12" placeholder="请确认密码" />
+                                    </div>
+                                   </div>
+                                   <div class="form-group">
+                                    <div class="col-sm-12">
+                                     <button class="btn btn-success" type="button" id="confirm_modifyP">
+                                      确认修改
+                                     </button>
+                                    </div>
+                                   </div>
+                               </form>
+                          </div>
+
+
+                       </div>
+                      </div>
+                     </div>
+                     <!-- Column -->
+                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="/resources/vendor/jquery/jquery.min.js"></script>
+<script src="/resources/vendor/popper.js/popper.min.js"></script>
+<script src="/resources/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="/resources/vendor/bootstrap-table/bootstrap-table.min.js"></script>
+<script src="/resources/vendor/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+
+<!-- <script src="/resources/vendor/select2/js/select2.min.js"></script> -->
+<!-- <script src="/resources/vendor/select2/js/select2_locale_zh-CN.js"></script> -->
+
+<script src="/resources/vendor/cookie/jquery.cookie.js"></script>
+<script src="/resources/vendor/artDialog/js/artDialog.js"></script>
+<script src="/resources/vendor/artDialog/js/sh_languages.js"></script>
+<script src="/resources/vendor/md5/md5.js"></script>
+<script src='/resources/js/port.js'></script>
+<script src="/resources/js/carbon.js"></script>
+<script src="/resources/js/common.js"></script>
+<script src="/resources/js/jquery.initTable.js"></script>
+
+
+<script>
+
+   $(function(){
+
+      //获取权限
+      $.ajax({
+        url: domainUrl + 'admin/getUserInfo.do',
+        type: "POST",
+        dataType: "json",
+        data: {token: token},
+        success:function (data) {
+          if (data.code == 200) {
+              var authList = data.data.authList;
+              arr_authList = authList.split(","); 
+
+              if(arr_authList.indexOf('/admin/getUserInfo.do') != -1){
+                  // 获取登录管理员的信息
+                  getAdminInfo();
+              }
+
+          }
+        },
+        error:function(error) {
+            alert(error);
+        }  
+      });
+
+
+
+
+
+      $("#confirm_modifyP").click(function(event) {
+            // var old_password = $("#old_password").val();
+            // var new_password = $("#new_password").val();
+            // var confirm_password = $("#confirm_password").val();
+            var old_password = $('input.old_password[type=password]').val();
+            var new_password = $('input.new_password[type=password]').val();
+            var confirm_password = $('input.confirm_password[type=password]').val();
+            var reg = /^[a-zA-Z\d]+$/; //只能为数字和大小写字母
+            if($.trim(old_password).length == 0){
+                art.dialog({
+                    content:"旧密码不能为空！",
+                    cancel:false,
+                    fixed: true,
+                    lock: true,
+                    width: 200,
+                    ok: function () {},
+                });
+                return;
+            }
+
+
+            if(!reg.test(old_password)){ 
+                art.dialog({
+                    content:"旧密码有误，请重填！(只能为数字和大小写字母)",
+                    cancel:false,
+                    fixed: true,
+                    lock: true,
+                    width: 200,
+                    ok: function () {},
+                });
+                return; 
+            } 
+
+
+            if($.trim(new_password).length == 0){
+                art.dialog({
+                    content:"新密码不能为空！",
+                    cancel:false,
+                    fixed: true,
+                    lock: true,
+                    width: 200,
+                    ok: function () {},
+                });
+                return;
+            }
+
+
+
+            if($.trim(old_password) == $.trim(new_password)){
+                art.dialog({
+                    content:"新密码和旧密码不能相同！",
+                    cancel:false,
+                    fixed: true,
+                    lock: true,
+                    width: 200,
+                    ok: function () {},
+                });
+                return;
+            }
+
+
+            if(!reg.test(new_password)){ 
+                art.dialog({
+                    content:"新密码有误，请重填！(只能为数字和大小写字母)",
+                    cancel:false,
+                    fixed: true,
+                    lock: true,
+                    width: 200,
+                    ok: function () {},
+                });
+                return; 
+            } 
+
+
+
+
+            if($.trim(confirm_password).length == 0){
+                art.dialog({
+                    content:"请输入确认密码！",
+                    cancel:false,
+                    fixed: true,
+                    lock: true,
+                    width: 200,
+                    ok: function () {},
+                });
+                return;
+            }
+
+
+            if($.trim(new_password) != $.trim(confirm_password)){
+                art.dialog({
+                    content:"输入的确认密码和新密码不一致！",
+                    cancel:false,
+                    fixed: true,
+                    lock: true,
+                    width: 200,
+                    ok: function () {},
+                });
+                return;
+            }
+
+
+
+            $.ajax({
+              url: domainUrl + 'admin/updatePsd.do',
+              type: "POST",
+              dataType: "json",
+              data: {token: token,oldPsd:hex_md5(old_password),newPsd:hex_md5(new_password)},
+              success:function (data) {
+                  if (data.code == 200) {
+                      art.dialog({
+                          content:data.msg,
+                          cancel:false,
+                          fixed: true,
+                          lock: true,
+                          dblclick_hide:false,
+                          width: 200,
+                          ok: function () {
+                              /*$("#old_password").val("");
+                              $("#new_password").val("");
+                              $("#confirm_password").val("");*/
+                              $('input.old_password[type=password]').val("");
+                              $('input.new_password[type=password]').val("");
+                              $('input.confirm_password[type=password]').val("");
+                          },
+                      });
+                  }else if (data.code == 201){
+                      art.dialog({
+                          content:data.msg,
+                          cancel:false,
+                          fixed: true,
+                          lock: true,
+                          width: 200,
+                          ok: function () {},
+                      });
+                  }
+              },
+              error: function(error) {
+                  alert(error);
+              }
+          });
+
+
+      });
+
+
+    });
+
+
+
+
+     function pCqueryParams(params){
+          var temp = {   
+              token:token,
+              page: (params.offset/params.limit) + 1,  
+              count:params.limit,
+          };
+          return temp;
+     }
+
+
+
+     function getAdminInfo(){
+          $.ajax({
+              url: domainUrl + 'admin/getUserInfo.do',
+              type: "POST",
+              dataType: "json",
+              data: {
+                  token: token,
+              },
+              success: function(data) {
+                  if (data.code == 200) {
+                    var account = data.data.account;
+                    var name = data.data.name;
+                    var mobile = data.data.mobile;
+                    //获取管理员的信息
+                    $("#per_account").text(account);
+                    $("#per_name").text(name);
+                    $("#per_mobile").text(mobile);
+                  }
+              },
+              error: function(error) {
+                  alert(error);
+                  setTimeout(function() {
+                      window.location.href = "/login.html";
+                  },
+                  1500);
+              }
+          });
+     }
+
+</script>
+
+
+</body>
+</html>

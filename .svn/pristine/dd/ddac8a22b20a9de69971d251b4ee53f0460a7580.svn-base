@@ -1,0 +1,1294 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>题库题目列表</title>
+    <link rel="stylesheet" href="/resources/vendor/bootstrap-table/bootstrap-table.min.css">
+    <link rel="stylesheet" href="/resources/vendor/simple-line-icons/css/simple-line-icons.css">
+    <link rel="stylesheet" href="/resources/vendor/font-awesome/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="/resources/css/styles.css">
+    <link rel="stylesheet" href="/resources/vendor/Checkboxes/custom.css">
+    <link rel="stylesheet" href="/resources/vendor/artDialog/css/dialog.css">
+    <!-- <link rel="stylesheet" href="/resources/vendor/select2/css/select2.min.css"> -->
+
+
+    <link rel="stylesheet" href="/resources/css/main.css">
+</head>
+<body class="sidebar-fixed header-fixed">
+<div class="page-wrapper">
+    <!-- 头部菜单 s-->
+    <nav class="navbar page-header">
+        <a href="#" class="btn btn-link sidebar-mobile-toggle d-md-none mr-auto">
+            <i class="fa fa-bars"></i>
+        </a>
+
+        <a class="navbar-brand" href="#">
+            <img src="/resources/imgs/logo.png" alt="logo">
+        </a>
+
+        <a href="#" class="btn btn-link sidebar-toggle d-md-down-none">
+            <i class="fa fa-bars"></i>
+        </a>
+
+        <ul class="navbar-nav ml-auto">
+            
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img src="/resources/imgs/avatar-1.png" class="avatar avatar-sm" alt="logo">
+                    <span class="small ml-1 d-md-down-none" id="nav-account"></span>
+                </a>
+
+                <div class="dropdown-menu dropdown-menu-right">
+                    <div class="dropdown-header">设置</div>
+
+                    <a href="#" class="dropdown-item">
+                        <i class="fa fa-wrench"></i> 设置
+                    </a>
+
+                    <a href="#" class="dropdown-item" id="logout">
+                        <i class="fa fa-lock"></i> 退出
+                    </a>
+                </div>
+            </li>
+        </ul>
+    </nav>
+    <!-- 头部菜单 e-->
+
+    <div class="main-container">
+
+        <!-- 左边菜单 s -->
+        <div class="sidebar">
+            <nav class="sidebar-nav">
+                <ul class="nav" id="menu-list">
+                </ul>
+            </nav>
+        </div>
+        <!-- 左边菜单 e -->
+
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header bg-light">
+                                题库题目
+                            </div>
+                            <div class="card-body">
+                                    
+                                <!-- 过滤框 -->
+                                <form class="form-inline">
+                                  <div class="form-group  mb-2">
+                                    <input type="text" class="form-control" id="searchText" placeholder="请输入名称或内容关键字...">
+                                  </div>
+                                  <button type="button" class="btn btn-primary mx-sm-3 mb-2" id="searchButton">搜索
+                                  </button>
+                                </form>
+                                
+
+                                <div class="table-responsive">
+                                    <div id="toolbar">
+                                        <button type="button" 
+                                        class="btn btn-info btn-sm" id="add_qSubject">
+                                            <i class="fa fa-plus"></i> 
+                                            &nbsp; 添加
+                                        </button>
+                                        <!-- disabled -->
+                                        <button type="button" 
+                                        class="btn btn-danger btn-sm" id="qSubject_deletes" >
+                                            <i class="fa fa-trash"></i> 
+                                            &nbsp; 批量删除
+                                        </button>
+                                    </div>
+
+                                    <table class="table table-bordered  table-striped table-hover" id="table-data">
+
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 题库题目编辑 s -->
+<div class="modal fade" id="e_qSubjectModal" tabindex="-1" role="dialog" aria-labelledby="e_qSubjectModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="e_qSubjectModalLabel">编辑题库题目</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+           <form>
+              <div class="form-group row">
+                <label for="e_title" class="col-sm-3 col-form-label text-right px-sm-0">标题：</label>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" id="e_title" placeholder="请输入标题">
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label for="e_type" class="col-sm-3 col-form-label text-right px-sm-0">类型：</label>
+                <div class="col-sm-6">
+                    <select id="e_type" class="form-control">
+                        <option value="1">单选</option>
+                        <option value="2">多选</option>
+                        <option value="3">填空</option>
+                    </select>
+                </div>
+              </div>
+
+              <div class="form-group row select_Box" id="e_select_Box">
+                <div class="col-sm-3"></div>
+                <div class="col-sm-8">
+                  <div class="card">
+                    <div class="card-header">
+                      单选选项列表
+                    </div>
+                    <div class="card-body">
+                        <div class="input-group mb-3 coningroup">
+                            <input type="text" class="form-control input-sm col-6 xxtext" placeholder="选项1" />
+                            <div class="input-group-prepend mx-sm-3"><span class="input-group-text plus" id="e_plus">+</span></div>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="form-group row">
+                <label for="e_status" class="col-sm-3 col-form-label text-right px-sm-0">状态：</label>
+                <div class="col-sm-6">
+                    <select id="e_status" class="form-control">
+                        <option value="1">显示</option>
+                        <option value="2">隐藏</option>
+                    </select>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label for="e_categoryId" class="col-sm-3 col-form-label text-right px-sm-0">分类ID：</label>
+                <div class="col-sm-6">
+                    <div class="selectTable">
+                        <input type="text" class="form-control maintxt" id="e_categoryId" readonly="readonly" placeholder="请选择分类ID">
+                        <i class="downtb"></i>
+                        <div class="selectCot" id="e_qSubject_selectCot">
+
+                            <!-- 过滤框 -->
+                            <div class="fircellDiv d-flex justify-content-between">
+                                <div class="form-inline fircell">
+                                  <div class="form-group mb-2">
+                                    <input type="text" class="form-control" id="e_qSubject_searchText" placeholder="请输入名称或内容关键字..." />
+                                  </div>
+                                  <button type="button" class="btn btn-primary mb-2" id="e_qSubject_searchButton">搜索
+                                  </button>
+                                </div>
+                            </div>
+                            
+
+                             
+                            <div class="table-responsive">
+                                <table class="table table-bordered  table-striped table-hover text-nowrap xltable" id="e_selectqClassify-table">
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+              </div>
+            </form>
+      </div>
+      <div class="modal-footer">
+        <input type="hidden" id="e_id" />
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary" id="e_qSubjectModal_save">保存</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 题库题目编辑 e -->
+
+
+<!-- 添加题库题目 s -->
+<div class="modal fade" id="addqSubjectModal" tabindex="-1" role="dialog" aria-labelledby="addqSubjectModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addqSubjectModalLabel">添加题库题目</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+           <form>
+              <div class="form-group row">
+                <label for="addqSubject_title" class="col-sm-3 col-form-label text-right px-sm-0">标题：</label>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" id="addqSubject_title" placeholder="请输入标题">
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label for="addqSubject_type" class="col-sm-3 col-form-label text-right px-sm-0">类型：</label>
+                <div class="col-sm-6">
+                    <select id="addqSubject_type" class="form-control">
+                        <option value="1">单选</option>
+                        <option value="2">多选</option>
+                        <option value="3">填空</option>
+                    </select>
+                </div>
+              </div>
+
+              <div class="form-group row select_Box" id="select_Box">
+                <div class="col-sm-3"></div>
+                <div class="col-sm-8">
+                  <div class="card">
+                    <div class="card-header">
+                      单选选项列表
+                    </div>
+                    <div class="card-body">
+                        <div class="input-group mb-3 coningroup">
+                            <input type="text" class="form-control input-sm col-6 xxtext" placeholder="选项1" />
+                            <div class="input-group-prepend mx-sm-3"><span class="input-group-text plus" id="plus">+</span></div>
+                            <!-- <div class="input-group-prepend" hidden="true"><span class="input-group-text minus">-</span></div> -->
+                        </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label for="addqSubject_status" class="col-sm-3 col-form-label text-right px-sm-0">状态：</label>
+                <div class="col-sm-6">
+                    <select id="addqSubject_status" class="form-control">
+                        <option value="1">显示</option>
+                        <option value="2">隐藏</option>
+                    </select>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label for="addqSubject_categoryId" class="col-sm-3 col-form-label text-right px-sm-0">分类ID：</label>
+                <div class="col-sm-6">
+                    <div class="selectTable">
+                        <input type="text" class="form-control maintxt" id="addqSubject_categoryId" readonly="readonly" placeholder="请选择分类ID">
+                        <i class="downtb"></i>
+                        <div class="selectCot" id="addqSubject-selectCot">
+
+                            <!-- 过滤框 -->
+                            <div class="fircellDiv d-flex justify-content-between">
+                                <div class="form-inline fircell">
+                                  <div class="form-group mb-2">
+                                    <input type="text" class="form-control" id="searchText" placeholder="请输入名称或内容关键字..." />
+                                  </div>
+                                  <button type="button" class="btn btn-primary mb-2" id="addqSubject-searchButton">搜索
+                                  </button>
+                                </div>
+                            </div>
+                            
+
+                             
+                            <div class="table-responsive">
+                                <table class="table table-bordered  table-striped table-hover text-nowrap xltable" id="selectqClassify-table">
+                                </table>
+                            </div>
+
+
+
+                        </div>
+                    </div>
+                </div>
+              </div>
+
+            </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary" id="addqSubjectModal_save">保存</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 添加题库题目 e -->
+
+
+
+
+<!-- 详情 s -->
+<div class="modal fade" id="detailsModal" tabindex="-1" role="dialog" aria-labelledby="detailsModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="detailsModalLabel">题库题目详情</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+           <form>
+              <div class="form-group row">
+                 <label for="e_details_id" class="col-sm-3 col-form-label text-right px-sm-0">分类ID：</label>
+                 <div class="col-sm-6">
+                   <input type="text" class="form-control" id="e_details_id" readonly="true">
+                 </div>
+              </div>
+              <div class="form-group row">
+                <label for="e_details_title" class="col-sm-3 col-form-label text-right px-sm-0">标题：</label>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" id="e_details_title" readonly="true">
+                </div>
+              </div>
+              
+
+              <div class="form-group row">
+                <label for="e_details_type" class="col-sm-3 col-form-label text-right px-sm-0">类型：</label>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" id="e_details_type" readonly="true">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="e_details_status" class="col-sm-3 col-form-label text-right px-sm-0">状态：</label>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" id="e_details_status" readonly="true">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="e_details_optionNum" class="col-sm-3 col-form-label text-right px-sm-0">选项数：</label>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" id="e_details_optionNum" readonly="true">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="e_details_categoryId" class="col-sm-3 col-form-label text-right px-sm-0">分类ID：</label>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" id="e_details_categoryId" readonly="true">
+                </div>
+              </div>
+              
+            </form>
+
+            <div class="table-responsive">
+                <table class="table table-bordered  table-striped table-hover text-nowrap" id="qClassifyDetails-table">
+                  <thead>
+                    <tr>
+                      <th>选项ID</th>
+                      <th>选项名</th>
+                    </tr>
+                  </thead>
+                  <tbody></tbody>  
+                </table>
+            </div>
+
+      </div>
+      <div class="modal-footer">
+        <input type="hidden" id="e_details_id" />
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 详情 e -->
+
+
+
+
+
+
+
+
+<script src="/resources/vendor/jquery/jquery.min.js"></script>
+<script src="/resources/vendor/popper.js/popper.min.js"></script>
+<script src="/resources/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="/resources/vendor/bootstrap-table/bootstrap-table.min.js"></script>
+<script src="/resources/vendor/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+
+<!-- <script src="/resources/vendor/select2/js/select2.min.js"></script> -->
+<!-- <script src="/resources/vendor/select2/js/select2_locale_zh-CN.js"></script> -->
+
+<script src="/resources/vendor/cookie/jquery.cookie.js"></script>
+<script src="/resources/vendor/artDialog/js/artDialog.js"></script>
+<script src="/resources/vendor/artDialog/js/sh_languages.js"></script>
+<script src='/resources/js/port.js'></script>
+<script src="/resources/js/carbon.js"></script>
+<script src="/resources/js/common.js"></script>
+<script src="/resources/js/jquery.initTable.js"></script>
+
+
+
+
+
+
+<script>
+   var arr_authList = "";
+   var ix = 1;
+   var e_ix = 1;
+   $(function(){
+      
+        //获取权限
+        $.ajax({
+            url: domainUrl + 'admin/getUserInfo.do',
+            type: "POST",
+            dataType: "json",
+            data: {token: token},
+            success:function (data) {
+                if (data.code == 200) {
+                    var authList = data.data.authList;
+                    arr_authList = authList.split(",");
+                    // console.log(arr_authList);
+                    if(arr_authList.indexOf('/admin/qb/list.do') != -1){
+                        var qb_list_do = "admin/qb/list.do";
+
+                        //1.初始化Table
+                        $("#table-data").bootstrapTable('destroy'); 
+                        $.initBootstrapTable("#table-data", {
+                               method: 'post',
+                               url: domainUrl + 'admin/qb/list.do?token='+token,
+                               height:'auto',
+                               pageSize: 6, 
+                               columns: [
+                                    {
+                                        checkbox: true
+                                    },
+                                    {
+                                        field: 'id',
+                                        title: '题目ID'
+                                    },
+                                    {
+                                        field: 'title',
+                                        title: '标题'
+                                    }, 
+                                    {
+                                        field: 'cName',
+                                        title: '分类'
+                                    }, 
+                                    {
+                                        field: 'uName',
+                                        title: '创建者'
+                                    },
+                                    {
+                                        field: 'creDate',
+                                        title: '创建时间'
+                                    },
+                                    {
+                                        field: 'Button',
+                                        title: '操作',
+                                        events: operateEvents,
+                                        formatter: operateFormatter
+                                    },  
+                               ],
+
+                        });
+
+                    }
+
+
+
+                    //批量删除按钮权限
+                    if(arr_authList.indexOf('/admin/qb/delete.do') != -1){
+                         $("#qSubject_deletes").show();
+                    }else{
+                        $("#qSubject_deletes").hide();
+                    }
+
+                    //添加按钮权限
+                    if(arr_authList.indexOf('/admin/qb/add.do') != -1){
+                         $("#add_qSubject").show();
+                    }else{
+                        $("#add_qSubject").hide();
+                    }
+
+
+                }else if(data.code == 201){
+                    alert(data.msg);
+                    window.location.href = "/login.html";
+                }
+                else if(data.code == 201){
+                    alert(data.msg);
+                }
+            },
+            error: function(error) {
+                alert(error);
+                setTimeout(function () {
+                   window.location.href = "/login.html";
+               }, 1500);
+            }
+        });
+
+
+
+        //添加题库题目
+        $("#add_qSubject").click(function(event) {
+            $('#addqSubjectModal').modal('show');
+            $("#addqSubject_title").val("");
+            $("#addqSubject_type option:first").prop("selected", 'selected');
+            $("#addqSubject_status option:first").prop("selected", 'selected');
+            $("#addqSubject_categoryId").val("");
+        });
+
+
+        //选择类型
+        $("#addqSubject_type").change(function(event) {
+            var checkValue=$(this).val();
+            if(checkValue == "3"){ //填空
+              $("#select_Box").attr("style","display:none!important;");
+            }else{
+              $("#select_Box").attr("style","display:flex!important;");
+              if(checkValue == "1"){
+                $("#select_Box").find(".card-header").text("单选选项列表");
+              }else if(checkValue == "2"){
+                $("#select_Box").find(".card-header").text("多选选项列表");
+              }
+            }
+        });
+
+        //单选
+        $("#select_Box .card-body .coningroup").find("#plus").click(function(event) {
+              ix ++;
+              var chm = '<div class="input-group mb-3 coningroup" data-ix="'+ix+'">'+
+                            '<input type="text" class="form-control input-sm col-6 xxtext" placeholder="选项'+ix+'">'+
+                            '<div class="input-group-prepend mx-sm-3"><span class="input-group-text plus" onclick="plusWay(this)">+</span></div>'+
+                            '<div class="input-group-prepend" hidden="hidden">'+
+                            '<span class="input-group-text minus" onclick="minusWay(this)">-</span></div>'+
+                        '</div>';
+              $(this).parents(".card-body").append(chm);
+               $("#select_Box .card-body").find(".coningroup:last").find(".minus").parent(".input-group-prepend").removeAttr("hidden");
+               $("#select_Box .card-body").find(".coningroup:last").siblings('.coningroup').find(".minus").parent(".input-group-prepend").attr("hidden","hidden");
+        });
+
+        //加载题库分类表格数据
+        loadingqClassify();
+        //下拉题库分类列表
+        $("#addqSubject_categoryId").click(function(event) {
+            event.stopPropagation();
+            if($("#addqSubject-selectCot").is(":hidden")){
+              $("#addqSubject-selectCot").show();
+              $("#addqSubject-selectCot").animate({marginTop:"5px",opacity:"1"},"fast");
+            }else{
+              $("#addqSubject-selectCot").hide();
+              $("#addqSubject-selectCot").animate({marginTop:"50px",opacity:"0"},"fast");
+            }
+        });
+        $('#selectqClassify-table').on('click-row.bs.table', function (e, row, element){
+          $("#addqSubject_categoryId").attr("value",row.id);
+          $("#addqSubject_categoryId").val(row.id);
+          $("#addqSubject_categoryId").click();
+        });
+        $('#addqSubjectModal').on('hidden.bs.modal', function (e) {
+            e.stopPropagation();
+            if($("#addqSubject-selectCot").css("display") === "block"){
+              $("#addqSubject-selectCot").hide();
+              $("#addqSubject-selectCot").animate({marginTop:"50px",opacity:"0"},"fast");
+            }
+        });
+        $('#addqSubjectModal').find(".modal-dialog").click(function(e) {
+            if($("#addqSubject-selectCot").is(":visible")){
+              $("#addqSubject-selectCot").hide();
+              $("#addqSubject-selectCot").animate({marginTop:"50px",opacity:"0"},"fast");
+            }
+        });
+        $("#addqSubject-selectCot").click(function(e) {
+            e.stopPropagation();
+        });
+        //保存添加题库题目
+        $("#addqSubjectModal_save").click(function(event) {
+            var title = $("#addqSubject_title").val();
+            var type = $("#addqSubject_type").val();
+            var status = $("#addqSubject_status").val();
+            var categoryId = $("#addqSubject_categoryId").val();
+
+
+            if($.trim(title).length == 0){
+                art.dialog({
+                    content:"标题不能为空!",
+                    cancel:false,
+                    fixed: true,
+                    lock: true,
+                    width: 200,
+                    ok: function () {},
+                });
+                return;
+            }
+
+
+            var options = new Array();
+            if(type != "3"){ //单选和多选
+              var txt = "";
+              if(type == "1"){
+                 txt = "单选";
+              }else if(type == "2"){
+                 txt = "多选";
+              }
+              $("#select_Box").find(".xxtext").each(function(index, el) {
+                if($.trim($(this).val()).length == 0){
+                  var titv = $(this).attr("placeholder");
+                  art.dialog({
+                      content:txt+titv+"不能为空!",
+                      cancel:false,
+                      fixed: true,
+                      lock: true,
+                      width: 200,
+                      ok: function () {},
+                  });
+                  return false;
+                }else{
+                  var xxv = $(this).val();
+                  options.push({name:xxv});
+                }
+              });
+            }
+            
+            if($.trim(categoryId).length == 0){
+                art.dialog({
+                    content:"分类ID不能为空!",
+                    cancel:false,
+                    fixed: true,
+                    lock: true,
+                    width: 200,
+                    ok: function () {},
+                });
+                return;
+            }
+
+
+            $.ajax({
+                url: domainUrl + 'admin/qb/add.do',
+                type: "POST",
+                dataType: "json",
+                data: {token: token,title:title,type:type,status:status,categoryId:categoryId,options:JSON.stringify(options)},
+                success:function (data) {
+                    if (data.code == 200) {
+                        art.dialog({
+                            content:data.msg,
+                            fixed: true,
+                            lock: true,
+                            width: 200,
+                            cancel:false,
+                            ok: function () {
+                                $('#addqSubjectModal').modal('hide');
+                                $("#table-data").bootstrapTable('refresh'); 
+                            }
+                        });
+                    }else if(data.code == 201){
+                        art.dialog({
+                            content:data.msg,
+                            cancel:false,
+                            fixed: true,
+                            lock: true,
+                            width: 200,
+                            ok: function () {},
+                        });
+                    }
+                },
+                error: function(error) {
+                    art.dialog({
+                        content:error,
+                        cancel:false,
+                        fixed: true,
+                        lock: true,
+                        width: 200,
+                        ok: function () {
+                            setTimeout(function () {
+                               window.location.href = "/login.html";
+                            }, 1500);
+                        },
+                    });
+                }
+            });
+        });
+
+
+
+
+
+        /***********************编辑题库题目部分 s***************************/
+      
+        //选择类型
+        $("#e_type").change(function(event) {
+            var checkValue=$(this).val();
+            if(checkValue == "3"){ //填空
+              $("#e_select_Box").attr("style","display:none!important;");
+            }else{
+              $("#e_select_Box").attr("style","display:flex!important;");
+              if(checkValue == "1"){
+                $("#e_select_Box").find(".card-header").text("单选选项列表");
+              }else if(checkValue == "2"){
+                $("#e_select_Box").find(".card-header").text("多选选项列表");
+              }
+            }
+        });
+
+
+        //选择
+        $("#e_select_Box .card-body .coningroup").find("#e_plus").click(function(event) {
+              e_ix ++;
+              var chm = '<div class="input-group mb-3 coningroup" data-ix="'+e_ix+'">'+
+                            '<input type="text" class="form-control input-sm col-6 xxtext" placeholder="选项'+e_ix+'">'+
+                            '<div class="input-group-prepend mx-sm-3"><span class="input-group-text plus" onclick="e_plusWay(this)">+</span></div>'+
+                            '<div class="input-group-prepend" hidden="hidden">'+
+                            '<span class="input-group-text minus" onclick="e_minusWay(this)">-</span></div>'+
+                        '</div>';
+              $(this).parents(".card-body").append(chm);
+               $("#e_select_Box .card-body").find(".coningroup:last").find(".minus").parent(".input-group-prepend").removeAttr("hidden");
+               $("#e_select_Box .card-body").find(".coningroup:last").siblings('.coningroup').find(".minus").parent(".input-group-prepend").attr("hidden","hidden");
+        });
+
+
+
+        //加载题库分类表格数据
+        e_loadingqClassify();
+
+        //下拉题库分类列表
+        $("#e_categoryId").click(function(event) {
+            event.stopPropagation();
+            if($("#e_qSubject_selectCot").is(":hidden")){
+              $("#e_qSubject_selectCot").show();
+              $("#e_qSubject_selectCot").animate({marginTop:"5px",opacity:"1"},"fast");
+            }else{
+              $("#e_qSubject_selectCot").hide();
+              $("#e_qSubject_selectCot").animate({marginTop:"50px",opacity:"0"},"fast");
+            }
+        });
+        $('#e_selectqClassify-table').on('click-row.bs.table', function (e, row, element){
+          $("#e_categoryId").attr("value",row.id);
+          $("#e_categoryId").val(row.id);
+          $("#e_categoryId").click();
+        });
+        $('#e_qSubjectModal').on('hidden.bs.modal', function (e) {
+            e.stopPropagation();
+            if($("#e_qSubject_selectCot").css("display") === "block"){
+              $("#e_qSubject_selectCot").hide();
+              $("#e_qSubject_selectCot").animate({marginTop:"50px",opacity:"0"},"fast");
+            }
+        });
+        $('#e_qSubjectModal').find(".modal-dialog").click(function(e) {
+            if($("#e_qSubject_selectCot").is(":visible")){
+              $("#e_qSubject_selectCot").hide();
+              $("#e_qSubject_selectCot").animate({marginTop:"50px",opacity:"0"},"fast");
+            }
+        });
+        $("#e_qSubject_selectCot").click(function(e) {
+            e.stopPropagation();
+        });
+        //保存编辑题库题目
+        $("#e_qSubjectModal_save").click(function(event) {
+            var id = $("#e_id").val();
+            var title = $("#e_title").val();
+            var type = $("#e_type").val();
+            var status = $("#e_status").val();
+            var categoryId = $("#e_categoryId").val();
+
+
+            if($.trim(title).length == 0){
+                art.dialog({
+                    content:"标题不能为空!",
+                    cancel:false,
+                    fixed: true,
+                    lock: true,
+                    width: 200,
+                    ok: function () {},
+                });
+                return;
+            }
+
+
+            var options = new Array();
+            if(type != "3"){ //单选和多选
+              var txt = "";
+              if(type == "1"){
+                 txt = "单选";
+              }else if(type == "2"){
+                 txt = "多选";
+              }
+              $("#e_select_Box").find(".xxtext").each(function(index, el) {
+                if($.trim($(this).val()).length == 0){
+                  var titv = $(this).attr("placeholder");
+                  art.dialog({
+                      content:txt+titv+"不能为空!",
+                      cancel:false,
+                      fixed: true,
+                      lock: true,
+                      width: 200,
+                      ok: function () {},
+                  });
+                  return false;
+                }else{
+                  var xxv = $(this).val();
+                  options.push({name:xxv});
+                }
+              });
+            }
+
+            
+            if($.trim(categoryId).length == 0){
+                art.dialog({
+                    content:"分类ID不能为空!",
+                    cancel:false,
+                    fixed: true,
+                    lock: true,
+                    width: 200,
+                    ok: function () {},
+                });
+                return;
+            }
+
+            $.ajax({
+                url: domainUrl + 'admin/qb/edit.do',
+                type: "POST",
+                dataType: "json",
+                data: {token: token,id:id,title:title,type:type,status:status,categoryId:categoryId,options:JSON.stringify(options)},
+                success:function (data) {
+                    if (data.code == 200) {
+                        art.dialog({
+                            content:data.msg,
+                            fixed: true,
+                            lock: true,
+                            width: 200,
+                            cancel:false,
+                            ok: function () {
+                                $('#e_qSubjectModal').modal('hide');
+                                $("#table-data").bootstrapTable('refresh'); 
+                            }
+                        });
+                    }else if(data.code == 201){
+                        art.dialog({
+                            content:data.msg,
+                            cancel:false,
+                            fixed: true,
+                            lock: true,
+                            width: 200,
+                            ok: function () {},
+                        });
+                    }
+                },
+                error: function(error) {
+                    art.dialog({
+                        content:error,
+                        cancel:false,
+                        fixed: true,
+                        lock: true,
+                        width: 200,
+                        ok: function () {
+                            setTimeout(function () {
+                               window.location.href = "/login.html";
+                            }, 1500);
+                        },
+                    });
+                }
+            });
+        });
+
+        /***********************编辑题库题目部分 e***************************/
+
+
+
+        //批量删除事件
+        $("#qSubject_deletes").click(function(event) {
+            var $table = $("#table-data");
+            console.log(getIdSelections($table));
+            if(getIdSelections($table).length == 0){
+                art.dialog({
+                    content:"请至少选中一行数据",
+                    cancel:false,
+                    fixed: true,
+                    lock: true,
+                    width: 200,
+                    ok: function () {},
+                });
+            }else{
+                console.log(getIdSelections($table).join(','));
+                var ids = getIdSelections($table).join(',');
+                art.dialog({
+                    content:"确定要删除所选数据？",
+                    ok: function () {
+                        $.ajax({
+                            url: domainUrl + 'admin/qb/delete.do',
+                            type: "POST",
+                            dataType: "json",
+                            data: {token: token,ids:ids},
+                            success:function (data) {
+                                if (data.code == 200) {
+                                    art.dialog({
+                                        content:data.msg,
+                                        cancel:false,
+                                        fixed: true,
+                                        lock: true,
+                                        width: 200,
+                                        ok: function () {
+                                            $("#table-data").bootstrapTable('refresh'); 
+                                        },
+                                    });
+                                }else if(data.code == 201){
+                                    art.dialog({
+                                        content:data.msg,
+                                        cancel:false,
+                                        fixed: true,
+                                        lock: true,
+                                        width: 200,
+                                        ok: function () {},
+                                    });
+                                }
+                            },
+                            error: function(error) {
+                                art.dialog({
+                                    content:error,
+                                    cancel:false,
+                                    fixed: true,
+                                    lock: true,
+                                    width: 200,
+                                    ok: function () {
+                                        setTimeout(function () {
+                                           window.location.href = "/login.html";
+                                        }, 1500);
+                                    },
+                                });
+                                
+                            }
+                        });
+                    },
+                    lock: true,
+                    width: 200,
+                    cancelValue: '取消',
+                    cancel:function(){},
+                });
+            }
+
+        });
+
+   });
+
+
+
+//加载题库分类表格数据
+function loadingqClassify(){
+  $.initBootstrapTable("#selectqClassify-table", {
+         method: 'post',
+         url: domainUrl + 'admin/qbCategory/list.do?token='+token,
+         height:'auto',
+         toolbar: '',
+         // singleSelect:true,
+         pageSize: 5, 
+         columns: [
+              // {
+              //     checkbox: true
+              // },
+              {
+                  field: 'id',
+                  title: '分类ID'
+              },
+              {
+                  field: 'name',
+                  title: '分类名称'
+              }, 
+              {
+                  field: 'uName',
+                  title: '创建者'
+              }, 
+              {
+                  field: 'creDate',
+                  title: '创建时间'
+              },
+              {
+                  field: 'priority',
+                  title: '显示顺序',
+              },
+         ],
+
+   });
+}
+
+function plusWay(e){ //添加
+  ix++;
+  var chm = '<div class="input-group mb-3 coningroup" data-ix="'+ix+'">'+
+                '<input type="text" class="form-control input-sm col-6 xxtext" placeholder="选项'+ix+'">'+
+                '<div class="input-group-prepend mx-sm-3"><span class="input-group-text plus" onclick="plusWay(this)">+</span></div>'+
+                '<div class="input-group-prepend" hidden="hidden">'+
+                '<span class="input-group-text minus" onclick="minusWay(this)">-</span></div>'+
+            '</div>';
+  $(e).parents(".card-body").append(chm);
+  $("#select_Box .card-body").find(".coningroup:last").find(".minus").parent(".input-group-prepend").removeAttr("hidden");
+  $("#select_Box .card-body").find(".coningroup:last").siblings('.coningroup').find(".minus").parent(".input-group-prepend").attr("hidden","hidden");
+}
+
+
+function minusWay(e){ //减少
+  $(e).parents(".coningroup").remove();
+  ix--;
+  $("#select_Box .card-body").find(".coningroup:last").find(".minus").parent(".input-group-prepend").removeAttr("hidden");
+}
+
+
+
+//加载题库分类表格数据
+function e_loadingqClassify(){
+  $.initBootstrapTable("#e_selectqClassify-table", {
+         method: 'post',
+         url: domainUrl + 'admin/qbCategory/list.do?token='+token,
+         height:'auto',
+         toolbar: '',
+         pageSize: 5, 
+         columns: [
+              {
+                  field: 'id',
+                  title: '分类ID'
+              },
+              {
+                  field: 'name',
+                  title: '分类名称'
+              }, 
+              {
+                  field: 'uName',
+                  title: '创建者'
+              }, 
+              {
+                  field: 'creDate',
+                  title: '创建时间'
+              },
+              {
+                  field: 'priority',
+                  title: '显示顺序',
+              },
+         ],
+
+   });
+}
+
+
+function e_plusWay(e){ //添加
+  e_ix++;
+  var chm = '<div class="input-group mb-3 coningroup" data-ix="'+e_ix+'">'+
+                '<input type="text" class="form-control input-sm col-6 xxtext" placeholder="选项'+e_ix+'">'+
+                '<div class="input-group-prepend mx-sm-3"><span class="input-group-text plus" onclick="e_plusWay(this)">+</span></div>'+
+                '<div class="input-group-prepend" hidden="hidden">'+
+                '<span class="input-group-text minus" onclick="e_minusWay(this)">-</span></div>'+
+            '</div>';
+  $(e).parents(".card-body").append(chm);
+  $("#e_select_Box .card-body").find(".coningroup:last").find(".minus").parent(".input-group-prepend").removeAttr("hidden");
+  $("#e_select_Box .card-body").find(".coningroup:last").siblings('.coningroup').find(".minus").parent(".input-group-prepend").attr("hidden","hidden");
+}
+
+
+function e_minusWay(e){ //减少
+  $(e).parents(".coningroup").remove();
+  e_ix--;
+  if(e_ix < "0"){
+      $("#e_select_Box .card-body").find(".coningroup:last").find(".minus").parent(".input-group-prepend").attr("hidden","hidden");
+  }else{
+      $("#e_select_Box .card-body").find(".coningroup:last").find(".minus").parent(".input-group-prepend").removeAttr("hidden");
+  }
+}
+
+
+
+
+  
+
+
+  function operateFormatter(value, row, index) {
+        var rowedit_html = "";
+        var rowdelete_html = "";
+        var rowdetails_html = "";
+
+        if(arr_authList.indexOf('/admin/qb/edit.do') != -1){
+            rowedit_html ='<i class="tbmr rowedit fa fa-edit" title="编辑"></i>';
+        }
+
+        if(arr_authList.indexOf('/admin/qb/delete.do') != -1){
+            rowdelete_html ='<i class="tbmr rowdelete fa fa-trash" title="删除"></i>';
+        }
+
+        if(arr_authList.indexOf('/admin/qb/get.do') != -1){
+            rowdetails_html ='<i class="tbmr rowdetails fa fa-info-circle" title="详情"></i>';
+        }
+
+        return [
+            rowedit_html,
+            rowdelete_html,
+            rowdetails_html,
+        ].join('');
+   }
+
+   window.operateEvents = {
+        'click .rowdelete': function(e, value, row, index) { //单独删除题库分类
+            art.dialog({
+                content:"确定要删除本条数据？",
+                ok: function () {
+                    var ids = new Array();
+                    ids.push(row.id);
+                    $.ajax({
+                        url: domainUrl + 'admin/qb/delete.do',
+                        type: "POST",
+                        dataType: "json",
+                        data: {token: token,ids:ids.join(',')},
+                        success:function (data) {
+                            if (data.code == 200) {
+                                art.dialog({
+                                    content:data.msg,
+                                    cancel:false,
+                                    fixed: true,
+                                    lock: true,
+                                    width: 200,
+                                    ok: function () {
+                                        $("#table-data").bootstrapTable('refresh'); 
+                                    },
+                                });
+                            }else if(data.code == 201){
+                                art.dialog({
+                                    content:data.msg,
+                                    cancel:false,
+                                    fixed: true,
+                                    lock: true,
+                                    width: 200,
+                                    ok: function () {},
+                                });
+                            }
+                        },
+                        error: function(error) {
+                            art.dialog({
+                                content:error,
+                                cancel:false,
+                                fixed: true,
+                                lock: true,
+                                width: 200,
+                                ok: function () {
+                                    setTimeout(function () {
+                                       window.location.href = "/login.html";
+                                    }, 1500);
+                                },
+                            });
+                            
+                        }
+                    });
+                },
+                lock: true,
+                width: 200,
+                cancelValue: '取消',
+                cancel:function(){},
+            });
+        },
+        'click .rowedit': function(e, value, row, index) { //单独编辑
+            var id = row.id;
+            $.ajax({
+                url: domainUrl + 'admin/qb/get.do',
+                type: "POST",
+                dataType: "json",
+                data: {token: token,id:id},
+                success:function (data) {
+                    if (data.code == 200) {
+                        $("#e_title").attr("value",data.data.title);
+                        $("#e_type").val(data.data.type);
+
+                        if(data.data.type == "1"){
+                            $("#e_select_Box").find(".card-header").text("单选选项列表");
+                        }else if(data.data.type == "2"){
+                            $("#e_select_Box").find(".card-header").text("多选选项列表");
+                        }
+
+                        var options = data.data.options;
+                        var html = "";
+                        for(var i=0; i<options.length;i++){
+                          html += '<div class="input-group mb-3 coningroup" data-ix="'+parseInt(i+1)+'"><input type="text" class="form-control input-sm col-6 xxtext" placeholder="选项'+parseInt(i+1)+'" value="'+options[i].name+'"><div class="input-group-prepend mx-sm-3"><span class="input-group-text plus" onclick="e_plusWay(this)">+</span></div><div class="input-group-prepend" hidden="hidden"><span class="input-group-text minus" onclick="e_minusWay(this)">-</span></div></div>';
+                        }
+                        $("#e_select_Box").find(".card-body").html(html);
+                        $("#e_select_Box .card-body").find(".coningroup:last").find(".minus").parent(".input-group-prepend").removeAttr("hidden");
+                        $("#e_select_Box .card-body").find(".coningroup:last").siblings('.coningroup').find(".minus").parent(".input-group-prepend").attr("hidden","hidden");
+
+                        $("#e_status").val(data.data.status);
+                        $("#e_categoryId").attr("value",data.data.categoryId);
+                        $("#e_categoryId").val(data.data.categoryId);
+                        $("#e_id").attr("value",id);
+                        $("#e_qSubjectModal").modal('show');
+                    }else if(data.code == 201){
+                        art.dialog({
+                            content:data.msg,
+                            cancel:false,
+                            fixed: true,
+                            lock: true,
+                            width: 200,
+                            ok: function () {},
+                        });
+                    }
+                },
+                error: function(error) {
+                    art.dialog({
+                        content:error.msg,
+                        cancel:false,
+                        fixed: true,
+                        lock: true,
+                        width: 200,
+                        ok: function () {},
+                    });
+                    
+                }
+            });
+            
+        },
+        'click .rowdetails': function(e, value, row, index) { //查看详情
+            var id = row.id;
+            $.ajax({
+                url: domainUrl + 'admin/qb/get.do',
+                type: "POST",
+                dataType: "json",
+                data: {token: token,id:id},
+                success:function (data) {
+                    if (data.code == 200) {
+                        $("#e_details_id").attr("value",data.data.id);
+                        $("#e_details_title").attr("value",data.data.title);
+                        $("#e_details_type").attr("value",data.data.type);
+                        $("#e_details_status").attr("value",data.data.status);
+                        $("#e_details_optionNum").attr("value",data.data.optionNum);
+                        $("#e_details_categoryId").attr("value",data.data.categoryId);
+                        if(data.data.options.length > 0){
+                            $("#qClassifyDetails-table").show();
+                            var html = "";
+                            for (var i = 0; i<data.data.options.length; i++) {
+                              var id = data.data.options[i].id;
+                              var name = data.data.options[i].name;
+                              html += '<tr><td>'+id+'</td><td>'+name+'</td></tr>';
+                            }
+                            $("#qClassifyDetails-table").find("tbody").html(html);
+                        }else{
+                            $("#qClassifyDetails-table").hide();
+                        }
+                        $("#detailsModal").modal('show');
+                    }else if(data.code == 201){
+                        art.dialog({
+                            content:data.msg,
+                            cancel:false,
+                            fixed: true,
+                            lock: true,
+                            width: 200,
+                            ok: function () {},
+                        });
+                    }
+                },
+                error: function(error) {
+                    art.dialog({
+                        content:error.msg,
+                        cancel:false,
+                        fixed: true,
+                        lock: true,
+                        width: 200,
+                        ok: function () {},
+                    });
+                    
+                }
+            });
+        },
+
+   }
+
+
+
+
+
+</script>
+
+
+</body>
+</html>

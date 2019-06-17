@@ -1,0 +1,466 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>问卷记录</title>
+    <link rel="stylesheet" href="/resources/vendor/bootstrap-table/bootstrap-table.min.css">
+    <link rel="stylesheet" href="/resources/vendor/simple-line-icons/css/simple-line-icons.css">
+    <link rel="stylesheet" href="/resources/vendor/font-awesome/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="/resources/css/styles.css">
+    <link rel="stylesheet" href="/resources/vendor/Checkboxes/custom.css">
+    <link rel="stylesheet" href="/resources/vendor/artDialog/css/dialog.css">
+    <!-- <link rel="stylesheet" href="/resources/vendor/select2/css/select2.min.css"> -->
+
+
+    <link rel="stylesheet" href="/resources/css/main.css">
+</head>
+<body class="sidebar-fixed header-fixed">
+<div class="page-wrapper">
+    <!-- 头部菜单 s-->
+    <nav class="navbar page-header">
+        <a href="#" class="btn btn-link sidebar-mobile-toggle d-md-none mr-auto">
+            <i class="fa fa-bars"></i>
+        </a>
+
+        <a class="navbar-brand" href="#">
+            <img src="/resources/imgs/logo.png" alt="logo">
+        </a>
+
+        <a href="#" class="btn btn-link sidebar-toggle d-md-down-none">
+            <i class="fa fa-bars"></i>
+        </a>
+
+        <ul class="navbar-nav ml-auto">
+            
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img src="/resources/imgs/avatar-1.png" class="avatar avatar-sm" alt="logo">
+                    <span class="small ml-1 d-md-down-none" id="nav-account"></span>
+                </a>
+
+                <div class="dropdown-menu dropdown-menu-right">
+                    <div class="dropdown-header">设置</div>
+
+                    <a href="#" class="dropdown-item">
+                        <i class="fa fa-wrench"></i> 设置
+                    </a>
+
+                    <a href="#" class="dropdown-item" id="logout">
+                        <i class="fa fa-lock"></i> 退出
+                    </a>
+                </div>
+            </li>
+        </ul>
+    </nav>
+    <!-- 头部菜单 e-->
+
+    <div class="main-container">
+
+        <!-- 左边菜单 s -->
+        <div class="sidebar">
+            <nav class="sidebar-nav">
+                <ul class="nav" id="menu-list">
+                </ul>
+            </nav>
+        </div>
+        <!-- 左边菜单 e -->
+
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header bg-light">
+                                问卷记录
+                            </div>
+                            <div class="card-body">
+                                    
+                                <!-- 过滤框 -->
+                                <form class="form-inline">
+                                  <div class="form-group  mb-2 mr-sm-3">
+                                      <div class="selectTable">
+                                          <input type="text" class="form-control maintxt" id="get_qnId" readonly="readonly" placeholder="请选择问卷">
+                                          <i class="downtb"></i>
+                                          <div class="selectCot" id="getqn-selectCot">
+
+                                              <!-- 过滤框 -->
+                                              <div class="fircellDiv d-flex justify-content-between">
+                                                  <div class="form-inline fircell">
+                                                    <div class="form-group mb-2">
+                                                      <input type="text" class="form-control" id="getqn-searchText" placeholder="请输入名称或内容关键字..." />
+                                                    </div>
+                                                    <button type="button" class="btn btn-primary mb-2" id="getqn-searchButton">搜索
+                                                    </button>
+                                                  </div>
+                                              </div>
+                                              
+
+                                               
+                                              <div class="table-responsive">
+                                                  <table class="table table-bordered  table-striped table-hover text-nowrap xltable" id="selectqn-table">
+                                                  </table>
+                                              </div>
+
+
+
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="form-group  mb-2">
+                                    <input type="text" class="form-control" id="searchText" placeholder="请输入名称或内容关键字...">
+                                  </div>
+                                  <button type="button" class="btn btn-primary mx-sm-3 mb-2" id="searchButton">搜索
+                                  </button>
+                                </form>
+                                
+
+                                <div class="table-responsive">
+                                    <table class="table table-bordered  table-striped table-hover" id="table-data">
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 详情 s -->
+<div class="modal fade" id="detailsModal" tabindex="-1" role="dialog" aria-labelledby="detailsModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="detailsModalLabel">问卷记录详情</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+           <form>
+              <div class="form-group row">
+                <label for="e_details_name" class="col-sm-3 col-form-label text-right px-sm-0">  问卷名称：</label>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" id="e_details_name" readonly="true">
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label for="e_details_ip" class="col-sm-3 col-form-label text-right px-sm-0">   
+                IP地址：</label>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" id="e_details_ip" readonly="true">
+                </div>
+              </div>
+              
+
+              <div class="form-group row">
+                <label for="e_details_type" class="col-sm-3 col-form-label text-right px-sm-0">类型：</label>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" id="e_details_type" readonly="true">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="e_details_status" class="col-sm-3 col-form-label text-right px-sm-0">状态：</label>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" id="e_details_status" readonly="true">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="e_details_optionNum" class="col-sm-3 col-form-label text-right px-sm-0">选项数：</label>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" id="e_details_optionNum" readonly="true">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="e_details_categoryId" class="col-sm-3 col-form-label text-right px-sm-0">分类ID：</label>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" id="e_details_categoryId" readonly="true">
+                </div>
+              </div>
+              
+            </form>
+
+            <div class="table-responsive">
+                <table class="table table-bordered  table-striped table-hover text-nowrap" id="qClassifyDetails-table">
+                  <thead>
+                    <tr>
+                      <th>选项ID</th>
+                      <th>选项名</th>
+                    </tr>
+                  </thead>
+                  <tbody></tbody>  
+                </table>
+            </div>
+
+      </div>
+      <div class="modal-footer">
+        <input type="hidden" id="e_details_id" />
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 详情 e -->
+
+
+<script src="/resources/vendor/jquery/jquery.min.js"></script>
+<script src="/resources/vendor/popper.js/popper.min.js"></script>
+<script src="/resources/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="/resources/vendor/bootstrap-table/bootstrap-table.min.js"></script>
+<script src="/resources/vendor/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+
+<!-- <script src="/resources/vendor/select2/js/select2.min.js"></script> -->
+<!-- <script src="/resources/vendor/select2/js/select2_locale_zh-CN.js"></script> -->
+
+<script src="/resources/vendor/cookie/jquery.cookie.js"></script>
+<script src="/resources/vendor/artDialog/js/artDialog.js"></script>
+<script src="/resources/vendor/artDialog/js/sh_languages.js"></script>
+<script src='/resources/js/port.js'></script>
+<script src="/resources/js/carbon.js"></script>
+<script src="/resources/js/common.js"></script>
+<script src="/resources/js/jquery.initTable.js"></script>
+
+
+<script>
+   var arr_authList = "";
+   $(function(){
+      
+        //获取权限
+        $.ajax({
+            url: domainUrl + 'admin/getUserInfo.do',
+            type: "POST",
+            dataType: "json",
+            data: {token: token},
+            success:function (data) {
+                if (data.code == 200) {
+                    var authList = data.data.authList;
+                    arr_authList = authList.split(",");
+                    // console.log(arr_authList);
+                    if(arr_authList.indexOf('/admin/record/list.do') != -1){
+                        var qb_list_do = "admin/record/list.do";
+
+                        //1.初始化Table
+                        $("#table-data").bootstrapTable('destroy'); 
+                        $.initBootstrapTable("#table-data", {
+                               method: 'post',
+                               url: domainUrl + 'admin/record/list.do?token='+token,
+                               height:'auto',
+                               toolbar: '',
+                               pageSize: 6, 
+                               columns: [
+                                    // {
+                                    //     checkbox: true
+                                    // },
+                                    {
+                                        field: 'id',
+                                        title: '记录ID'
+                                    },
+                                    {
+                                        field: 'qnName',
+                                        title: '问卷名称'
+                                    }, 
+                                    {
+                                        field: 'region',
+                                        title: 'IP地址所属区域'
+                                    },
+                                    {
+                                        field: 'creDate',
+                                        title: '创建时间'
+                                    },
+                                    {
+                                        field: 'Button',
+                                        title: '操作',
+                                        events: operateEvents,
+                                        formatter: operateFormatter
+                                    },  
+                               ],
+                        });
+
+                    }
+
+                }else if(data.code == 201){
+                    alert(data.msg);
+                    window.location.href = "/login.html";
+                }
+                else if(data.code == 201){
+                    alert(data.msg);
+                }
+            },
+            error: function(error) {
+                alert(error);
+                setTimeout(function () {
+                   window.location.href = "/login.html";
+               }, 1500);
+            }
+        });
+
+
+        /****************************加载问卷列表表格数据 s****************************/
+        loadingqn();
+        //下拉题库分类列表
+        $("#get_qnId").click(function(event) {
+            event.stopPropagation();
+            if($("#getqn-selectCot").is(":hidden")){
+              $("#getqn-selectCot").show();
+              $("#getqn-selectCot").animate({marginTop:"5px",opacity:"1"},"fast");
+            }else{
+              $("#getqn-selectCot").hide();
+              $("#getqn-selectCot").animate({marginTop:"50px",opacity:"0"},"fast");
+            }
+        });
+        $('#selectqn-table').on('click-row.bs.table', function (e, row, element){
+          var qnId = row.id;
+          var beginDate = row.beginDate;
+          var endDate = row.endDate;
+          $("#get_qnId").attr("value",row.id);
+          $("#get_qnId").val(row.id);
+          $("#getqn-selectCot").hide();
+          $("#getqn-selectCot").animate({marginTop:"50px",opacity:"0"},"fast");
+
+          $("#table-data").bootstrapTable('refresh',{
+            query:{
+               qnId:qnId,
+               beginDate:beginDate,
+               endDate:endDate
+            }
+          });
+        });
+        $(document).click(function(e) {
+            e.stopPropagation();
+            if($("#getqn-selectCot").css("display") === "block"){
+              $("#getqn-selectCot").hide();
+              $("#getqn-selectCot").animate({marginTop:"50px",opacity:"0"},"fast");
+            }
+        });
+        $("#getqn-selectCot").click(function(e) {
+            e.stopPropagation();
+        });
+         /****************************加载问卷列表表格数据 e****************************/
+
+
+   });
+
+
+
+//加载题库分类表格数据
+function loadingqn(){
+  $.initBootstrapTable("#selectqn-table", {
+         method: 'post',
+         url: domainUrl + 'admin/qn/list.do?token='+token,
+         height:'auto',
+         toolbar: '',
+         // singleSelect:true,
+         pageSize: 5, 
+         columns: [
+              // {
+              //     checkbox: true
+              // },
+              {
+                  field: 'id',
+                  title: '问卷ID',
+                  visible: false
+              },
+              {
+                  field: 'name',
+                  title: '问卷名称'
+              }, 
+              {
+                  field: 'beginDate',
+                  title: '开始时间'
+              }, 
+              {
+                  field: 'endDate',
+                  title: '结束时间'
+              },
+         ],
+
+   });
+}
+
+
+
+
+
+
+  
+
+
+  function operateFormatter(value, row, index) {
+        var rowdetails_html = "";
+        if(arr_authList.indexOf('/admin/record/get.do') != -1){
+            rowdetails_html ='<i class="tbmr rowdetails fa fa-info-circle" title="记录信息详情"></i>';
+        }
+        return [
+            rowdetails_html,
+        ].join('');
+   }
+
+   window.operateEvents = {
+        'click .rowdetails': function(e, value, row, index) { //查看详情
+            var id = row.id;
+            $.ajax({
+                url: domainUrl + 'admin/record/get.do',
+                type: "POST",
+                dataType: "json",
+                data: {token: token,id:id},
+                success:function (data) {
+                    if (data.code == 200) {
+                        $("#e_details_id").attr("value",data.data.id);
+                        $("#e_details_name").attr("value",data.data.name);
+                        $("#e_details_ip").attr("value",data.data.ip);
+                        $("#e_details_status").attr("value",data.data.status);
+                        $("#e_details_optionNum").attr("value",data.data.optionNum);
+                        $("#e_details_categoryId").attr("value",data.data.categoryId);
+                        if(data.data.list.length > 0){
+                            $("#qClassifyDetails-table").show();
+                            var html = "";
+                            for (var i = 0; i<data.data.list.length; i++) {
+                              var id = data.data.list[i].id;
+                              var name = data.data.list[i].name;
+                              html += '<tr><td>'+id+'</td><td>'+name+'</td></tr>';
+                            }
+                            $("#qClassifyDetails-table").find("tbody").html(html);
+                        }else{
+                            $("#qClassifyDetails-table").hide();
+                        }
+                        $("#detailsModal").modal('show');
+                    }else if(data.code == 201){
+                        art.dialog({
+                            content:data.msg,
+                            cancel:false,
+                            fixed: true,
+                            lock: true,
+                            width: 200,
+                            ok: function () {},
+                        });
+                    }
+                },
+                error: function(error) {
+                    art.dialog({
+                        content:error.msg,
+                        cancel:false,
+                        fixed: true,
+                        lock: true,
+                        width: 200,
+                        ok: function () {},
+                    });
+                    
+                }
+            });
+        },
+
+   }
+
+
+
+
+
+</script>
+
+
+</body>
+</html>

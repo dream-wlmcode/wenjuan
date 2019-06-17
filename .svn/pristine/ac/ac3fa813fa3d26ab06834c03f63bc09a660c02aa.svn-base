@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <META HTTP-EQUIV="Cache-Control" CONTENT= "no-cache, must-revalidate"> 
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>编辑问卷</title>
+    <link rel="stylesheet" href="/resources/vendor/bootstrap-table/bootstrap-table.min.css">
+   <!--  <link rel="stylesheet" href="/resources/vendor/bootstrap-table-fixed-columns/css/bootstrap-table-fixed-columns.css"> -->
+    <link rel="stylesheet" href="/resources/vendor/simple-line-icons/css/simple-line-icons.css">
+    <link rel="stylesheet" href="/resources/vendor/font-awesome/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="/resources/css/styles.css">
+    <link rel="stylesheet" href="/resources/vendor/jquery-treegrid/css/jquery.treegrid.min.css">
+    <link rel="stylesheet" href="/resources/vendor/Checkboxes/custom.css">
+    <link rel="stylesheet" href="/resources/vendor/artDialog/css/dialog.css">
+    <link rel="stylesheet" href="/resources/vendor/bootstrap-zTree/css/bootstrapStyle/bootstrapStyle.css">
+    <link rel="stylesheet" href="/resources/vendor/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" href="/resources/css/main.css">
+    <link rel="stylesheet" href="/resources/css/iframe.css">
+</head>
+    
+<body class="sidebar-fixed header-fixed" id="bodyObj">
+    <form>
+        <div class="form-row">
+          <div class="form-group col-md-4">
+              <label for="editqSnaire_name">问卷名称</label>
+              <input type="text" class="form-control" id="editqSnaire_name" placeholder="请输入问卷名称">
+          </div>
+          
+          <div class="form-group col-md-4">
+            <label for="editqSnaire_categoryName">问卷分类名称</label>
+            <div class="selectTable">
+                <input type="text" class="form-control maintxt" id="editqSnaire_categoryName" readonly="readonly" placeholder="请选择问卷分类名称">
+                <input type="hidden" id="editqSnaire_categoryId">
+                <i class="downtb"></i>
+                <div class="selectCot" id="addqSnaire-selectCot">
+      
+                    <!-- 过滤框 -->
+                    <div class="fircellDiv d-flex justify-content-between">
+                        <div class="form-inline fircell">
+                          <div class="form-group mb-2">
+                            <input type="text" class="form-control" id="searchText" placeholder="请输入名称或内容关键字..." />
+                          </div>
+                          <button type="button" class="btn btn-primary mb-2" id="editqSnaire-searchButton">搜索
+                          </button>
+                        </div>
+                    </div>
+                    
+      
+                     
+                    <div class="table-responsive">
+                        <!-- 显示问卷分类列表 -->
+                        <table class="table table-bordered  table-striped table-hover text-nowrap xltable" id="selectqnairClassify-table">
+                        </table>
+                    </div>
+      
+      
+      
+                </div>
+            </div>
+          </div>
+          <div class="form-group col-md-4">
+            <label for="editqSnaire_status">状态</label>
+            <select id="editqSnaire_status" class="form-control">
+                <option value="1">正常</option>
+                <option value="2">关闭</option>
+            </select>
+          </div>
+        </div> 
+
+      
+        <div class="form-row">
+          <div class="form-group col-md-4">
+              <label for="addqSnaire_beginDate"> 开始时间
+              </label>
+              <div class="input-append date" id="editqSnaire_beginDate1" data-date="" data-target="#editqSnaire_beginDate1">
+                  <div class="input-group mb-3">
+                      <input class="span2 form-control" size="16" type="text" value="" placeholder="请选择开始时间" readonly />
+                      <div class="input-group-append">
+                        <span class="add-on input-group-text"><i class="icon-th fa fa-th"></i></span>
+                      </div>
+                  </div>
+              </div> 
+          </div>
+          <div class="form-group col-md-4">
+              <label for="addqSnaire_endDate">结束时间
+              </label>
+              <div class="input-append date" id="editqSnaire_endDate1" data-date="" data-target="#editqSnaire_endDate1" >
+                  <div class="input-group mb-3">
+                      <input class="span2 form-control" size="16" type="text" value="" placeholder="请选择结束时间" readonly />
+                      <div class="input-group-append">
+                        <span class="add-on input-group-text"><i class="icon-th fa fa-th"></i></span>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+          <div class="form-group col-md-4">
+            <label for="editqSnaire_expectQuizTime">预计答题时间：</label>
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" id="editqSnaire_expectQuizTime" placeholder="请输入预计答题时间" oninput = "value=value.replace(/[^\d]/g,'')" >
+                <div class="input-group-append">
+                    <span class="input-group-text">分钟</span>
+                </div>
+            </div>
+          </div>
+        </div>
+
+
+
+
+
+        <div class="form-row">
+          <div class="form-group col-md-4">
+              <label for="editqSnaire_description">问卷描述</label>
+              <textarea rows="3" class="form-control" id="editqSnaire_description" 
+              placeholder="请填写问卷描述"></textarea>
+          </div>
+        </div>
+        
+
+
+
+
+        <div class="card">
+            <div class="card-header bg-light">添加题目</div>
+            <div class="card-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-8 pl-0">
+                            <button type="button" class="btn btn-info btn-sm" id="add_timu">
+                                <i class="fa fa-plus"></i> &nbsp; 添加
+                            </button>
+                            <div class="timu_List" id="timu_List">
+                                <!-- <div class="timu_box">
+                                    <div class="timu_title">1. 出单员
+                                    </div>
+                                    <div class="timu_dry">
+                                        <span class="timu_items">
+                                            <span class="radio_type"></span><label>A、完整性</label>
+                                        </span>
+                                        <span class="timu_items">
+                                            <span class="radio_type"></span><label>B、完整性</label>
+                                        </span>   
+                                    </div>
+                                    <div class="timu_opernDiv">
+                                        <button type="button" class="obtn btn btn-sm btn-outline-info">编辑</button>
+                                        <button type="button" class="obtn btn btn-sm btn-outline-danger">删除</button>
+                                    </div>
+                                </div> -->
+                                <div class="timu_empty">
+                                    暂无题目(请添加题目或选择右边题目列表添加题目)...
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 pr-0">
+                            <!-- 过滤框 -->
+                            <div class="form-inline">
+                              <div class="form-group  mb-2">
+                                <input type="text" class="form-control" id="searchText" placeholder="请输入名称或内容关键字...">
+                              </div>
+                              <button type="button" class="btn btn-primary mx-sm-3 mb-2" id="searchButton">搜索
+                              </button>
+                            </div>
+
+                            <div class="table-responsive">
+                                <table class="table table-bordered  table-striped table-hover" id="selectqS-table"></table>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    </form>
+
+
+
+
+<!-- 添加题库题目 s -->
+<div class="modal fade" id="addqSubjectModal" tabindex="-1" role="dialog" aria-labelledby="addqSubjectModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addqSubjectModalLabel">添加题库题目</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+           <form>
+              <div class="form-group row">
+                <label for="addqSubject_title" class="col-sm-3 col-form-label text-right px-sm-0">标题：</label>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" id="addqSubject_title" placeholder="请输入标题">
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label for="addqSubject_type" class="col-sm-3 col-form-label text-right px-sm-0">类型：</label>
+                <div class="col-sm-6">
+                    <select id="addqSubject_type" class="form-control">
+                        <option value="1">单选</option>
+                        <option value="2">多选</option>
+                        <option value="3">填空</option>
+                    </select>
+                </div>
+              </div>
+
+              <div class="form-group row select_Box" id="select_Box">
+                <div class="col-sm-3"></div>
+                <div class="col-sm-8">
+                  <div class="card">
+                    <div class="card-header">
+                      单选选项列表
+                    </div>
+                    <div class="card-body">
+                        <div class="input-group mb-3 coningroup">
+                            <input type="text" class="form-control input-sm col-6 xxtext" placeholder="选项1" />
+                            <div class="input-group-prepend mx-sm-3"><span class="input-group-text plus" id="plus">+</span></div>
+                            <!-- <div class="input-group-prepend" hidden="true"><span class="input-group-text minus">-</span></div> -->
+                        </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label for="addqSubject_status" class="col-sm-3 col-form-label text-right px-sm-0">状态：</label>
+                <div class="col-sm-6">
+                    <select id="addqSubject_status" class="form-control">
+                        <option value="1">显示</option>
+                        <option value="2">隐藏</option>
+                    </select>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label for="addqSubject_categoryName" class="col-sm-3 col-form-label text-right px-sm-0">题库分类名称：</label>
+                <div class="col-sm-6">
+                    <div class="selectTable">
+                        <input type="text" class="form-control maintxt" id="addqSubject_categoryName" readonly="readonly" placeholder="请选择题库分类名称">
+                        <input type="hidden" id="addqSubject_categoryId">
+                        <i class="downtb"></i>
+                        <div class="selectCot" id="addqSubject-selectCot">
+
+                            <!-- 过滤框 -->
+                            <div class="fircellDiv d-flex justify-content-between">
+                                <div class="form-inline fircell">
+                                  <div class="form-group mb-2">
+                                    <input type="text" class="form-control" id="searchText" placeholder="请输入名称或内容关键字..." />
+                                  </div>
+                                  <button type="button" class="btn btn-primary mb-2" id="addqSubject-searchButton">搜索
+                                  </button>
+                                </div>
+                            </div>
+                            
+
+                             
+                            <div class="table-responsive">
+                                <table class="table table-bordered  table-striped table-hover text-nowrap xltable" id="selectqClassify-table">
+                                </table>
+                            </div>
+
+
+
+                        </div>
+                    </div>
+                </div>
+              </div>
+
+            </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary" id="addqSubjectModal_save">保存</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 添加题库题目 e -->
+
+
+
+<!-- 题库题目编辑 s -->
+<div class="modal fade" id="e_qSubjectModal" tabindex="-1" role="dialog" aria-labelledby="e_qSubjectModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="e_qSubjectModalLabel">编辑题库题目</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+           <form>
+              <div class="form-group row">
+                <label for="e_title" class="col-sm-3 col-form-label text-right px-sm-0">标题：</label>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" id="e_title" placeholder="请输入标题">
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label for="e_type" class="col-sm-3 col-form-label text-right px-sm-0">类型：</label>
+                <div class="col-sm-6">
+                    <select id="e_type" class="form-control">
+                        <option value="1">单选</option>
+                        <option value="2">多选</option>
+                        <option value="3">填空</option>
+                    </select>
+                </div>
+              </div>
+
+              <div class="form-group row select_Box" id="e_select_Box">
+                <div class="col-sm-3"></div>
+                <div class="col-sm-8">
+                  <div class="card">
+                    <div class="card-header">
+                      单选选项列表
+                    </div>
+                    <div class="card-body">
+                        <div class="input-group mb-3 coningroup">
+                            <input type="text" class="form-control input-sm col-6 xxtext" placeholder="选项1" />
+                            <div class="input-group-prepend mx-sm-3"><span class="input-group-text plus" id="e_plus">+</span></div>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="form-group row">
+                <label for="e_status" class="col-sm-3 col-form-label text-right px-sm-0">状态：</label>
+                <div class="col-sm-6">
+                    <select id="e_status" class="form-control">
+                        <option value="1">显示</option>
+                        <option value="2">隐藏</option>
+                    </select>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label for="e_categoryName" class="col-sm-3 col-form-label text-right px-sm-0">题库分类名称：</label>
+                <div class="col-sm-6">
+                    <div class="selectTable">
+                        <input type="text" class="form-control maintxt" id="e_categoryName" readonly="readonly" placeholder="请选择题库分类名称">
+                        <input type="hidden" id="e_categoryId">
+                        <i class="downtb"></i>
+                        <div class="selectCot" id="e_qSubject_selectCot">
+
+                            <!-- 过滤框 -->
+                            <div class="fircellDiv d-flex justify-content-between">
+                                <div class="form-inline fircell">
+                                  <div class="form-group mb-2">
+                                    <input type="text" class="form-control" id="e_qSubject_searchText" placeholder="请输入名称或内容关键字..." />
+                                  </div>
+                                  <button type="button" class="btn btn-primary mb-2" id="e_qSubject_searchButton">搜索
+                                  </button>
+                                </div>
+                            </div>
+                            
+
+                             
+                            <div class="table-responsive">
+                                <table class="table table-bordered  table-striped table-hover text-nowrap xltable" id="e_selectqClassify-table">
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+              </div>
+            </form>
+      </div>
+      <div class="modal-footer">
+        <input type="hidden" id="e_id" />
+        <input type="hidden" id="e_tmLen" />
+        <input type="hidden" id="e_ckNum" />
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary" id="e_qSubjectModal_save">保存</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 题库题目编辑 e -->
+
+
+<script src="/resources/vendor/jquery/jquery.min.js"></script>
+<script src="/resources/vendor/popper.js/popper.min.js"></script>
+<script src="/resources/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="/resources/vendor/bootstrap-table/bootstrap-table.min.js"></script>
+<script src="/resources/vendor/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+<!-- <script src="/resources/vendor/bootstrap-table-fixed-columns/js/bootstrap-table-fixed-columns.js"></script> -->
+<script src="/resources/vendor/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+<script src="/resources/vendor/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+<script src="/resources/vendor/bootstrap-table/extensions/treegrid/bootstrap-table-treegrid.min.js"></script>
+<script src="/resources/vendor/jquery-treegrid/js/jquery.treegrid.min.js"></script>
+<script src="/resources/vendor/cookie/jquery.cookie.js"></script>
+<script src="/resources/vendor/artDialog/js/artDialog.js"></script>
+<script src="/resources/vendor/artDialog/js/sh_languages.js"></script>
+
+<!-- zTree s -->
+<script type="text/javascript" src="/resources/vendor/bootstrap-zTree/js/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="/resources/vendor/bootstrap-zTree/js/jquery.ztree.excheck.js"></script>
+<script type="text/javascript" src="/resources/vendor/bootstrap-zTree/js/jquery.ztree.exedit.js"></script>
+<!-- zTree e -->
+
+
+<script src='/resources/js/port.js'></script>
+<script src="/resources/js/carbon.js"></script>
+<script src="/resources/js/common.js"></script>
+<script src="/resources/js/jquery.initTable.js"></script>
+<script src="/resources/js/questionnaireEdit.js"></script>
+</body>

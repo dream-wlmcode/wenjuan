@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>注册</title>
+    <link rel="stylesheet" href="/resources/vendor/simple-line-icons/css/simple-line-icons.css">
+    <link rel="stylesheet" href="/resources/vendor/font-awesome/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="/resources/css/styles.css">
+    <link rel="stylesheet" href="/resources/vendor/artDialog/css/dialog.css">
+</head>
+<body>
+<div class="page-wrapper flex-row align-items-center">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-5">
+                <div class="card p-4">
+                    <div class="card-header text-center text-uppercase h4 font-weight-light">
+                        注册
+                    </div>
+
+                    <div class="card-body py-5">
+                        <div class="form-group">
+                            <label class="form-control-label">账号</label>
+                            <input type="name" placeholder="请输入账号" class="form-control" id="account">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-control-label">密码</label>
+                            <input type="password" placeholder="请输入密码" class="form-control" id="password">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-control-label">授权码</label>
+                            <!-- <input type="text" placeholder="请输入授权码" class="form-control" id="authCode">
+                            <button type="button" class="btn btn-block" id="get_authCode">
+                             获取授权码
+                            </button> -->
+
+
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" placeholder="请输入授权码" id="authCode">
+                                <div class="input-group-append" style="cursor: pointer;" 
+                                id="get_authCode">
+                                    <span class="input-group-text">获取授权码</span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="card-footer">
+                        <button type="button" class="btn btn-success btn-block" id="register_id">注册</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- 获取授权码 s -->
+<div class="modal fade" id="getauthCodeModal" tabindex="-1" role="dialog" aria-labelledby="getauthCodeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="getauthCodeModalLabel">获取授权码</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+           <form>
+              <div class="form-group row">
+                <label for="getauthCode_name" class="col-sm-3 col-form-label text-right px-sm-0"> 名称：</label>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" id="getauthCode_name" placeholder="请输入名称" />
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="getauthCode_mobile" class="col-sm-3 col-form-label text-right px-sm-0"> 手机号码：</label>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" id="getauthCode_mobile" placeholder="请输入手机号码" />
+                </div>
+              </div>
+            </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary" id="getauthCodeModal_save">保存</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 获取授权码 e -->
+
+<script src="/resources/vendor/jquery/jquery.min.js"></script>
+<script src="/resources/vendor/popper.js/popper.min.js"></script>
+<script src="/resources/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="/resources/vendor/cookie/jquery.cookie.js"></script>
+<script src="/resources/vendor/artDialog/js/artDialog.js"></script>
+<script src="/resources/vendor/artDialog/js/sh_languages.js"></script>
+<script src="/resources/vendor/md5/md5.js"></script>
+<script src='/resources/js/port.js'></script>
+<script src="/resources/js/carbon.js"></script>
+<script src="/resources/js/common.js"></script>
+
+
+<script>
+    $(function(){
+        $("#get_authCode").click(function(event) {
+            $("#getauthCodeModal").modal("show");
+            $("#getauthCode_name").val("");
+            $("#getauthCode_mobile").val("");
+        });
+
+
+        $("#getauthCodeModal_save").click(function(event) {
+            var getauthCode_name = $("#getauthCode_name").val();
+            var getauthCode_mobile = $("#getauthCode_mobile").val();
+            if($.trim(getauthCode_name).length == 0){
+                art.dialog({
+                    content:"名称不能为空！",
+                    cancel:false,
+                    fixed: true,
+                    lock: true,
+                    width: 200,
+                    ok: function () {},
+                });
+                return;
+            }
+
+
+            if($.trim(getauthCode_mobile).length == 0){
+                art.dialog({
+                    content:"手机号码不能为空！",
+                    cancel:false,
+                    fixed: true,
+                    lock: true,
+                    width: 200,
+                    ok: function () {},
+                });
+                return;
+            }
+
+
+            if(!(/^1(3|4|5|7|8)\d{9}$/.test(getauthCode_mobile))){ 
+                art.dialog({
+                    content:"手机号码有误，请重填！",
+                    cancel:false,
+                    fixed: true,
+                    lock: true,
+                    width: 200,
+                    ok: function () {},
+                });
+                return; 
+            } 
+
+
+            $.ajax({
+              url: domainUrl + 'admin/getUserInfo.do',
+              type: "POST",
+              dataType: "json",
+              data: {token: token},
+              success:function (data) {
+                if (data.code == 200) {
+                  var authList = data.data.authList;
+                    arr_authList = authList.split(",");
+                    // console.log(arr_authList);
+                    if(arr_authList.indexOf('/admin/useradmin/authCode.do') != -1){
+                        $.ajax({
+                            url: domainUrl + 'admin/useradmin/authCode.do',
+                            type: "POST",
+                            dataType: "json",
+                            data: {token:token,name: getauthCode_name,mobile:getauthCode_mobile},
+                            success:function (data) {
+                                if (data.code == 200) {
+                                    art.dialog({
+                                        content:data.msg,
+                                        cancel:false,
+                                        fixed: true,
+                                        lock: true,
+                                        width: 200,
+                                        ok: function () {},
+                                    });
+                                    $("#authCode").attr("value",data.authCode);
+                                    $("#authCode").val(data.authCode);
+                                    $("#getauthCodeModal").modal("hide");
+                                }else if (data.code == 201){
+                                    art.dialog({
+                                        content:data.msg,
+                                        cancel:false,
+                                        fixed: true,
+                                        lock: true,
+                                        width: 200,
+                                        ok: function () {},
+                                    });
+                                }
+                            },
+                            error: function(error) {
+                                alert(error);
+                            }
+                        });  
+                    }
+                }else if(data.code == 201){
+                    art.dialog({
+                        content: data.msg,
+                        cancel: false,
+                        fixed: true,
+                        lock: true,
+                        width: 200,
+                        ok: function() {},
+                    });
+                }
+              },
+              error: function(error) {
+                  alert(error);
+              }
+            });
+
+
+
+
+        });
+
+        $("#register_id").click(function(event) {
+            var account = $("#account").val();
+            var password = $("#password").val();
+            var authCode = $("#authCode").val();
+            if($.trim(account).length == 0){
+                alert("请输入用户名");
+                return;
+            }
+            if($.trim(password).length == 0){
+                alert("请输入密码");
+                return;
+            }
+            if($.trim(authCode).length == 0){
+                alert("请输入授权码");
+                return;
+            }
+
+
+            $.ajax({
+                url: domainUrl + 'admin/register.do',
+                type: "POST",
+                dataType: "json",
+                data: {account: account,password:hex_md5(password),authCode:authCode},
+                success:function (data) {
+                    if (data.code == 200) {
+                        art.dialog({
+                            content:data.msg,
+                            cancel:false,
+                            fixed: true,
+                            lock: true,
+                            width: 200,
+                            ok: function () {},
+                        });
+                        windows.location.href = "/login.html";
+                    }else if (data.code == 201){
+                        art.dialog({
+                            content:data.msg,
+                            cancel:false,
+                            fixed: true,
+                            lock: true,
+                            width: 200,
+                            ok: function () {},
+                        });
+                    }
+                },
+                error: function(error) {
+                    alert(error);
+                }
+            });
+
+
+        });
+    });
+</script>
+</body>
+</html>
