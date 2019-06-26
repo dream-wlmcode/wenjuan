@@ -212,6 +212,7 @@
           }, function (e) {
             var index = $(e.currentTarget).data('index');
             var $tr = _this2.$fixedBody.find('tr[data-index="' + index + '"]');
+            console.log($tr.attr('style'));
             $tr.attr('style', $tr.attr('style').replace(/background-color:.*;/, ''));
           });
 
