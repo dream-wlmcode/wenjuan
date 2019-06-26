@@ -877,10 +877,10 @@ window.operateEvents = {      
             },
             success: function(data) {
                 if (data.code == 200) {
-                    $("#e_details_id").attr("value", data.data.id);
+                    // $("#e_details_id").attr("value", data.data.id);
                     $("#e_details_name").attr("value", data.data.name);
                     $("#e_details_api").attr("value", data.data.api);
-                    $("#e_details_parentId").attr("value", data.data.parentId);
+                    // $("#e_details_parentId").attr("value", data.data.parentId);
                     $("#e_details_priority").attr("value", data.data.priority);
                     $("#detailsModal").modal('show');
                 } else if (data.code == 500) {

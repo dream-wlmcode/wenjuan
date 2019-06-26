@@ -181,10 +181,11 @@
               </div>
 
               <div class="form-group row">
-                <label for="e_categoryId" class="col-sm-3 col-form-label text-right px-sm-0">分类ID：</label>
+                <label for="e_categoryName" class="col-sm-3 col-form-label text-right px-sm-0">题库分类名称：</label>
                 <div class="col-sm-6">
                     <div class="selectTable">
-                        <input type="text" class="form-control maintxt" id="e_categoryId" readonly="readonly" placeholder="请选择分类ID">
+                        <input type="text" class="form-control maintxt" id="e_categoryName" readonly="readonly" placeholder="请选择题库分类名称">
+                        <input type="hidden" id="e_categoryId">
                         <i class="downtb"></i>
                         <div class="selectCot" id="e_qSubject_selectCot">
 
@@ -282,10 +283,12 @@
               </div>
 
               <div class="form-group row">
-                <label for="addqSubject_categoryId" class="col-sm-3 col-form-label text-right px-sm-0">分类ID：</label>
+                <label for="addqSubject_categoryName" class="col-sm-3 col-form-label text-right px-sm-0">题库分类名称：
+                </label>
                 <div class="col-sm-6">
                     <div class="selectTable">
-                        <input type="text" class="form-control maintxt" id="addqSubject_categoryId" readonly="readonly" placeholder="请选择分类ID">
+                        <input type="text" class="form-control maintxt" id="addqSubject_categoryName" readonly="readonly" placeholder="请选择题库分类名称">
+                        <input type="hidden" id="addqSubject_categoryId" />
                         <i class="downtb"></i>
                         <div class="selectCot" id="addqSubject-selectCot">
 
@@ -317,6 +320,7 @@
             </form>
       </div>
       <div class="modal-footer">
+        
         <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
         <button type="button" class="btn btn-primary" id="addqSubjectModal_save">保存</button>
       </div>
@@ -340,12 +344,12 @@
       </div>
       <div class="modal-body">
            <form>
-              <div class="form-group row">
-                 <label for="e_details_id" class="col-sm-3 col-form-label text-right px-sm-0">分类ID：</label>
+              <!-- <div class="form-group row">
+                 <label for="e_details_id" class="col-sm-3 col-form-label text-right px-sm-0">题目ID：</label>
                  <div class="col-sm-6">
                    <input type="text" class="form-control" id="e_details_id" readonly="true">
                  </div>
-              </div>
+              </div> -->
               <div class="form-group row">
                 <label for="e_details_title" class="col-sm-3 col-form-label text-right px-sm-0">标题：</label>
                 <div class="col-sm-6">
@@ -372,12 +376,13 @@
                   <input type="text" class="form-control" id="e_details_optionNum" readonly="true">
                 </div>
               </div>
-              <div class="form-group row">
-                <label for="e_details_categoryId" class="col-sm-3 col-form-label text-right px-sm-0">分类ID：</label>
+
+              <!-- <div class="form-group row">
+                <label for="e_details_categoryId" class="col-sm-3 col-form-label text-right px-sm-0">题库分类ID：</label>
                 <div class="col-sm-6">
                   <input type="text" class="form-control" id="e_details_categoryId" readonly="true">
                 </div>
-              </div>
+              </div> -->
               
             </form>
 
@@ -395,7 +400,7 @@
 
       </div>
       <div class="modal-footer">
-        <input type="hidden" id="e_details_id" />
+        <!-- <input type="hidden" id="e_details_id" /> -->
         <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
       </div>
     </div>
@@ -473,7 +478,8 @@
                                     },
                                     {
                                         field: 'id',
-                                        title: '题目ID'
+                                        title: '题目ID',
+                                        visible:false,
                                     },
                                     {
                                         field: 'title',
@@ -549,7 +555,9 @@
             $('#addqSubjectModal').modal('show');
             $("#addqSubject_title").val("");
             $("#addqSubject_type option:first").prop("selected", 'selected');
+            $("#select_Box").find(".xxtext").val("");
             $("#addqSubject_status option:first").prop("selected", 'selected');
+            $("#addqSubject_categoryName").val("");
             $("#addqSubject_categoryId").val("");
         });
 
@@ -579,14 +587,27 @@
                             '<span class="input-group-text minus" onclick="minusWay(this)">-</span></div>'+
                         '</div>';
               $(this).parents(".card-body").append(chm);
-               $("#select_Box .card-body").find(".coningroup:last").find(".minus").parent(".input-group-prepend").removeAttr("hidden");
-               $("#select_Box .card-body").find(".coningroup:last").siblings('.coningroup').find(".minus").parent(".input-group-prepend").attr("hidden","hidden");
+              if($("#select_Box .card-body").find(".coningroup").length > 1 ){
+                $("#select_Box .card-body").find(".coningroup:last").find(".minus").parent(".input-group-prepend").removeAttr("hidden");
+                $("#select_Box .card-body").find(".coningroup:last").siblings('.coningroup').find(".minus").parent(".input-group-prepend").attr("hidden","hidden");
+              }
+               
         });
 
         //加载题库分类表格数据
         loadingqClassify();
         //下拉题库分类列表
-        $("#addqSubject_categoryId").click(function(event) {
+        $("#addqSubject_categoryName").click(function(event) {
+            event.stopPropagation();
+            if($("#addqSubject-selectCot").is(":hidden")){
+              $("#addqSubject-selectCot").show();
+              $("#addqSubject-selectCot").animate({marginTop:"5px",opacity:"1"},"fast");
+            }else{
+              $("#addqSubject-selectCot").hide();
+              $("#addqSubject-selectCot").animate({marginTop:"50px",opacity:"0"},"fast");
+            }
+        });
+        $("#addqSubject_categoryName").siblings('.downtb').click(function(event) {
             event.stopPropagation();
             if($("#addqSubject-selectCot").is(":hidden")){
               $("#addqSubject-selectCot").show();
@@ -597,9 +618,13 @@
             }
         });
         $('#selectqClassify-table').on('click-row.bs.table', function (e, row, element){
+          $("#addqSubject_categoryName").attr("value",row.name);
+          $("#addqSubject_categoryName").val(row.name);
           $("#addqSubject_categoryId").attr("value",row.id);
           $("#addqSubject_categoryId").val(row.id);
-          $("#addqSubject_categoryId").click();
+
+          $("#addqSubject-selectCot").hide();
+          $("#addqSubject-selectCot").animate({marginTop:"50px",opacity:"0"},"fast");
         });
         $('#addqSubjectModal').on('hidden.bs.modal', function (e) {
             e.stopPropagation();
@@ -622,6 +647,7 @@
             var title = $("#addqSubject_title").val();
             var type = $("#addqSubject_type").val();
             var status = $("#addqSubject_status").val();
+            var categoryName = $("#addqSubject_categoryName").val();
             var categoryId = $("#addqSubject_categoryId").val();
 
 
@@ -665,9 +691,9 @@
               });
             }
             
-            if($.trim(categoryId).length == 0){
+            if($.trim(categoryName).length == 0){
                 art.dialog({
-                    content:"分类ID不能为空!",
+                    content:"题库分类名称不能为空!",
                     cancel:false,
                     fixed: true,
                     lock: true,
@@ -756,8 +782,11 @@
                             '<span class="input-group-text minus" onclick="e_minusWay(this)">-</span></div>'+
                         '</div>';
               $(this).parents(".card-body").append(chm);
-               $("#e_select_Box .card-body").find(".coningroup:last").find(".minus").parent(".input-group-prepend").removeAttr("hidden");
-               $("#e_select_Box .card-body").find(".coningroup:last").siblings('.coningroup').find(".minus").parent(".input-group-prepend").attr("hidden","hidden");
+              if($("#e_select_Box .card-body").find(".coningroup").length > 1 ){
+                  $("#e_select_Box .card-body").find(".coningroup:last").find(".minus").parent(".input-group-prepend").removeAttr("hidden");
+                  $("#e_select_Box .card-body").find(".coningroup:last").siblings('.coningroup').find(".minus").parent(".input-group-prepend").attr("hidden","hidden");
+              }
+
         });
 
 
@@ -766,7 +795,17 @@
         e_loadingqClassify();
 
         //下拉题库分类列表
-        $("#e_categoryId").click(function(event) {
+        $("#e_categoryName").click(function(event) {
+            event.stopPropagation();
+            if($("#e_qSubject_selectCot").is(":hidden")){
+              $("#e_qSubject_selectCot").show();
+              $("#e_qSubject_selectCot").animate({marginTop:"5px",opacity:"1"},"fast");
+            }else{
+              $("#e_qSubject_selectCot").hide();
+              $("#e_qSubject_selectCot").animate({marginTop:"50px",opacity:"0"},"fast");
+            }
+        });
+        $("#e_categoryName").siblings('.downtb').click(function(event) {
             event.stopPropagation();
             if($("#e_qSubject_selectCot").is(":hidden")){
               $("#e_qSubject_selectCot").show();
@@ -777,9 +816,12 @@
             }
         });
         $('#e_selectqClassify-table').on('click-row.bs.table', function (e, row, element){
+          $("#e_categoryName").attr("value",row.name);
+          $("#e_categoryName").val(row.name);
           $("#e_categoryId").attr("value",row.id);
           $("#e_categoryId").val(row.id);
-          $("#e_categoryId").click();
+          $("#e_qSubject_selectCot").hide();
+          $("#e_qSubject_selectCot").animate({marginTop:"50px",opacity:"0"},"fast");
         });
         $('#e_qSubjectModal').on('hidden.bs.modal', function (e) {
             e.stopPropagation();
@@ -803,6 +845,7 @@
             var title = $("#e_title").val();
             var type = $("#e_type").val();
             var status = $("#e_status").val();
+            var categoryName = $("#e_categoryName").val();
             var categoryId = $("#e_categoryId").val();
 
 
@@ -847,9 +890,9 @@
             }
 
             
-            if($.trim(categoryId).length == 0){
+            if($.trim(categoryName).length == 0){
                 art.dialog({
-                    content:"分类ID不能为空!",
+                    content:"题库分类名称不能为空!",
                     cancel:false,
                     fixed: true,
                     lock: true,
@@ -1014,7 +1057,8 @@ function loadingqClassify(){
               // },
               {
                   field: 'id',
-                  title: '分类ID'
+                  title: '分类ID',
+                  visible:false
               },
               {
                   field: 'name',
@@ -1046,15 +1090,19 @@ function plusWay(e){ //添加
                 '<span class="input-group-text minus" onclick="minusWay(this)">-</span></div>'+
             '</div>';
   $(e).parents(".card-body").append(chm);
-  $("#select_Box .card-body").find(".coningroup:last").find(".minus").parent(".input-group-prepend").removeAttr("hidden");
-  $("#select_Box .card-body").find(".coningroup:last").siblings('.coningroup').find(".minus").parent(".input-group-prepend").attr("hidden","hidden");
+  if($("#select_Box .card-body").find(".coningroup").length > 1 ){
+      $("#select_Box .card-body").find(".coningroup:last").find(".minus").parent(".input-group-prepend").removeAttr("hidden");
+      $("#select_Box .card-body").find(".coningroup:last").siblings('.coningroup').find(".minus").parent(".input-group-prepend").attr("hidden","hidden");
+  }
 }
 
 
 function minusWay(e){ //减少
   $(e).parents(".coningroup").remove();
   ix--;
-  $("#select_Box .card-body").find(".coningroup:last").find(".minus").parent(".input-group-prepend").removeAttr("hidden");
+  if($("#select_Box .card-body").find(".coningroup").length > 1 ){
+      $("#select_Box .card-body").find(".coningroup:last").find(".minus").parent(".input-group-prepend").removeAttr("hidden");
+  }
 }
 
 
@@ -1070,7 +1118,8 @@ function e_loadingqClassify(){
          columns: [
               {
                   field: 'id',
-                  title: '分类ID'
+                  title: '分类ID',
+                  visible:false
               },
               {
                   field: 'name',
@@ -1103,8 +1152,10 @@ function e_plusWay(e){ //添加
                 '<span class="input-group-text minus" onclick="e_minusWay(this)">-</span></div>'+
             '</div>';
   $(e).parents(".card-body").append(chm);
-  $("#e_select_Box .card-body").find(".coningroup:last").find(".minus").parent(".input-group-prepend").removeAttr("hidden");
-  $("#e_select_Box .card-body").find(".coningroup:last").siblings('.coningroup').find(".minus").parent(".input-group-prepend").attr("hidden","hidden");
+  if($("#e_select_Box .card-body").find(".coningroup").length > 1){
+      $("#e_select_Box .card-body").find(".coningroup:last").find(".minus").parent(".input-group-prepend").removeAttr("hidden");
+      $("#e_select_Box .card-body").find(".coningroup:last").siblings('.coningroup').find(".minus").parent(".input-group-prepend").attr("hidden","hidden");
+  }
 }
 
 
@@ -1112,9 +1163,14 @@ function e_minusWay(e){ //减少
   $(e).parents(".coningroup").remove();
   e_ix--;
   if(e_ix < "0"){
-      $("#e_select_Box .card-body").find(".coningroup:last").find(".minus").parent(".input-group-prepend").attr("hidden","hidden");
+    if($("#e_select_Box .card-body").find(".coningroup").length > 1){
+        $("#e_select_Box .card-body").find(".coningroup:last").find(".minus").parent(".input-group-prepend").attr("hidden","hidden");
+    }
+      
   }else{
-      $("#e_select_Box .card-body").find(".coningroup:last").find(".minus").parent(".input-group-prepend").removeAttr("hidden");
+    if($("#e_select_Box .card-body").find(".coningroup").length > 1){
+        $("#e_select_Box .card-body").find(".coningroup:last").find(".minus").parent(".input-group-prepend").removeAttr("hidden");
+    }
   }
 }
 
@@ -1223,17 +1279,26 @@ function e_minusWay(e){ //减少
                         }else if(data.data.type == "2"){
                             $("#e_select_Box").find(".card-header").text("多选选项列表");
                         }
-
                         var options = data.data.options;
-                        var html = "";
-                        for(var i=0; i<options.length;i++){
-                          html += '<div class="input-group mb-3 coningroup" data-ix="'+parseInt(i+1)+'"><input type="text" class="form-control input-sm col-6 xxtext" placeholder="选项'+parseInt(i+1)+'" value="'+options[i].name+'"><div class="input-group-prepend mx-sm-3"><span class="input-group-text plus" onclick="e_plusWay(this)">+</span></div><div class="input-group-prepend" hidden="hidden"><span class="input-group-text minus" onclick="e_minusWay(this)">-</span></div></div>';
+                        if(options.length > 0){
+                          $("#e_select_Box").show();
+                          var html = "";
+                          for(var i=0; i<options.length;i++){
+                            html += '<div class="input-group mb-3 coningroup" data-ix="'+parseInt(i+1)+'"><input type="text" class="form-control input-sm col-6 xxtext" placeholder="选项'+parseInt(i+1)+'" value="'+options[i].name+'"><div class="input-group-prepend mx-sm-3"><span class="input-group-text plus" onclick="e_plusWay(this)">+</span></div><div class="input-group-prepend" hidden="hidden"><span class="input-group-text minus" onclick="e_minusWay(this)">-</span></div></div>';
+                          }
+                          $("#e_select_Box").find(".card-body").html(html);
+                        }else{
+                          $("#e_select_Box").hide();
                         }
-                        $("#e_select_Box").find(".card-body").html(html);
-                        $("#e_select_Box .card-body").find(".coningroup:last").find(".minus").parent(".input-group-prepend").removeAttr("hidden");
-                        $("#e_select_Box .card-body").find(".coningroup:last").siblings('.coningroup').find(".minus").parent(".input-group-prepend").attr("hidden","hidden");
-
+                        
+                        
+                        if($("#e_select_Box .card-body").find(".coningroup").length > 1){
+                            $("#e_select_Box .card-body").find(".coningroup:last").find(".minus").parent(".input-group-prepend").removeAttr("hidden");
+                            $("#e_select_Box .card-body").find(".coningroup:last").siblings('.coningroup').find(".minus").parent(".input-group-prepend").attr("hidden","hidden");
+                        }
                         $("#e_status").val(data.data.status);
+                        $("#e_categoryName").attr("value",row.cName);
+                        $("#e_categoryName").val(row.cName);
                         $("#e_categoryId").attr("value",data.data.categoryId);
                         $("#e_categoryId").val(data.data.categoryId);
                         $("#e_id").attr("value",id);
@@ -1272,12 +1337,12 @@ function e_minusWay(e){ //减少
                 data: {token: token,id:id},
                 success:function (data) {
                     if (data.code == 200) {
-                        $("#e_details_id").attr("value",data.data.id);
+                        // $("#e_details_id").attr("value",data.data.id);
                         $("#e_details_title").attr("value",data.data.title);
                         $("#e_details_type").attr("value",data.data.type);
                         $("#e_details_status").attr("value",data.data.status);
                         $("#e_details_optionNum").attr("value",data.data.optionNum);
-                        $("#e_details_categoryId").attr("value",data.data.categoryId);
+                        // $("#e_details_categoryId").attr("value",data.data.categoryId);
                         if(data.data.options.length > 0){
                             $("#qClassifyDetails-table").show();
                             var html = "";

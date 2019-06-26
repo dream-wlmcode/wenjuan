@@ -49,6 +49,7 @@ $(function() {
                       1500);
                   },
                 });  
+                $("#editqSnaire_categoryName").attr("value",name);
                 $("#editqSnaire_categoryId").attr("value",categoryId);
                 $("#editqSnaire_status").find("option[value='"+status+"']").attr("selected",true);
                 $("#editqSnaire_beginDate1").find('input').attr("value",beginDate);
@@ -110,7 +111,7 @@ $(function() {
                           console.log(title);
                           if(qbId == undefined){
                               html +='<div class="timu_opernDiv">'+
-                            '<button type="button" class="obtn btn btn-sm btn-outline-info tmEditBtn" data-listlen="'+parseInt(timu_listlen+1)+'" onclick="timuEdit(this,'+title+','+type+','+options+','+status+','+categoryId+')">编辑</button>'+
+                            '<button type="button" class="obtn btn btn-sm btn-outline-info tmEditBtn" data-listlen="'+parseInt(timu_listlen+1)+'" onclick="timuEdit(this,'+title+','+type+','+options+','+status+','+qbId+')">编辑</button>'+
                             '<button type="button" class="obtn btn btn-sm btn-outline-danger tmDeteleBtn" onclick="timuDetele(this)">删除</button>'+
                             '</div>';
                           }
@@ -359,7 +360,7 @@ $(function() {
         var title = $("#addqSubject_title").val();
         var type = $("#addqSubject_type").val();
         var status = $("#addqSubject_status").val();
-        var categoryId = $("#addqSubject_categoryId").val();
+        var id = $("#addqSubject_categoryId").val();
 
 
         if($.trim(title).length == 0){
@@ -445,7 +446,7 @@ $(function() {
         console.log(options);
         console.log(title);
         html +='<div class="timu_opernDiv">'+
-        '<button type="button" class="obtn btn btn-sm btn-outline-info tmEditBtn" data-listlen="'+parseInt(timu_listlen+1)+'" onclick="timuEdit(this,'+title+','+type+','+options+','+status+','+categoryId+')">编辑</button>'+
+        '<button type="button" class="obtn btn btn-sm btn-outline-info tmEditBtn" data-listlen="'+parseInt(timu_listlen+1)+'" onclick="timuEdit(this,'+title+','+type+','+options+','+status+','+id+')">编辑</button>'+
         '<button type="button" class="obtn btn btn-sm btn-outline-danger tmDeteleBtn" onclick="timuDetele(this)">删除</button>'+
         '</div>';
         html +='</div>';
@@ -549,6 +550,7 @@ $(function() {
         var categoryId = $("#e_categoryId").val();
         var tmLen = $("#e_tmLen").val();
         var ckNum = $("#e_ckNum").val();
+        var qbid = $("#e_saveqbid").val();
 
 
         if($.trim(title).length == 0){
@@ -591,18 +593,21 @@ $(function() {
           });
         }
 
-        
-        if($.trim(categoryId).length == 0){
-            art.dialog({
-                content:"分类ID不能为空!",
-                cancel:false,
-                fixed: true,
-                lock: true,
-                width: 200,
-                ok: function () {},
-            });
-            return;
+        console.log(qbid);
+        if(qbid != ""){
+            if($.trim(categoryId).length == 0){
+                art.dialog({
+                    content:"题库分类ID不能为空!",
+                    cancel:false,
+                    fixed: true,
+                    lock: true,
+                    width: 200,
+                    ok: function () {},
+                });
+                return;
+            }
         }
+
 
         timuxx_len = 1;
         // var timu_listlen = $("#timu_List").find(".timu_box").length;
@@ -1218,7 +1223,8 @@ function e_minusWay(e){ //减少
 
 
 //左边题目列表编辑
-function timuEdit(e,title,type,options,status,categoryId){
+function timuEdit(e,title,type,options,status,id){
+    var id_c = id;
     options =  JSON.stringify(options).replace(/\'/g,'"');
     title = JSON.stringify(title).replace(/\"/g,"");
     options = JSON.parse(options);
@@ -1231,7 +1237,7 @@ function timuEdit(e,title,type,options,status,categoryId){
     $("#e_type").val(type);
     $("#e_tmLen").attr("value",tmLen);
     $("#e_tmLen").val(tmLen);
-
+    $("#e_saveqbid").attr("value",id_c);
 
 
 
@@ -1262,8 +1268,90 @@ function timuEdit(e,title,type,options,status,categoryId){
     }
 
     $("#e_status").val(status);
-    $("#e_categoryId").attr("value",categoryId);
-    $("#e_categoryId").val(categoryId);
+    
+    console.log(id_c);
+
+    if(id_c != undefined){
+        $("#e_categoryName").parents(".form-group.row").show();
+        //获取题库分类ID
+        $.ajax({
+            url: domainUrl + 'admin/qb/get.do',
+            type: "POST",
+            dataType: "json",
+            data: {token: token,id:id_c},
+            success:function (data) {
+                if (data.code == 200) {
+                    $("#e_categoryId").attr("value",data.data.categoryId);
+                    $("#e_categoryId").val(data.data.categoryId);
+
+                    //获取题库分类名称
+                    $.ajax({
+                        url: domainUrl + 'admin/qbCategory/get.do',
+                        type: "POST",
+                        dataType: "json",
+                        data: {token: token,id:data.data.categoryId},
+                        success:function (data) {
+                            if (data.code == 200) {
+                                $("#e_categoryName").attr("value",data.data.name);
+                                $("#e_categoryName").val(data.data.name);
+                            }else if(data.code == 201){
+                                art.dialog({
+                                    content:data.msg,
+                                    cancel:false,
+                                    fixed: true,
+                                    lock: true,
+                                    width: 200,
+                                    ok: function () {},
+                                });
+                            }
+                        },
+                        error: function(error) {
+                            art.dialog({
+                                content:error,
+                                cancel:false,
+                                fixed: true,
+                                lock: true,
+                                width: 200,
+                                ok: function () {
+                                    setTimeout(function () {
+                                    window.location.href = "/login.html";
+                                    }, 1500);
+                                },
+                            });
+                            
+                        }
+                    });
+                }else if(data.code == 201){
+                    art.dialog({
+                        content:data.msg,
+                        cancel:false,
+                        fixed: true,
+                        lock: true,
+                        width: 200,
+                        ok: function () {},
+                    });
+                }
+            },
+            error: function(error) {
+                art.dialog({
+                    content:error,
+                    cancel:false,
+                    fixed: true,
+                    lock: true,
+                    width: 200,
+                    ok: function () {
+                        setTimeout(function () {
+                        window.location.href = "/login.html";
+                        }, 1500);
+                    },
+                });
+                
+            }
+        });
+    }else{
+        $("#e_categoryName").parents(".form-group.row").hide();
+    }
+
     $("#e_qSubjectModal").modal('show');
 }
 

@@ -227,6 +227,7 @@ $(function() {
         var title = $("#addqSubject_title").val();
         var type = $("#addqSubject_type").val();
         var status = $("#addqSubject_status").val();
+        var categoryName = $("#addqSubject_categoryName").val();
         var categoryId = $("#addqSubject_categoryId").val();
 
 
@@ -270,9 +271,9 @@ $(function() {
           });
         }
         
-        if($.trim(categoryId).length == 0){
+        if($.trim(categoryName).length == 0){
             art.dialog({
-                content:"分类ID不能为空!",
+                content:"题库分类名称不能为空!",
                 cancel:false,
                 fixed: true,
                 lock: true,
@@ -310,10 +311,12 @@ $(function() {
 
         options =  JSON.stringify(options).replace(/\"/g,"'");
         title = JSON.stringify(title).replace(/\"/g,"'");
+        categoryName = JSON.stringify(categoryName).replace(/\"/g,"'");
         console.log(options);
         console.log(title);
+        console.log(categoryName);
         html +='<div class="timu_opernDiv">'+
-        '<button type="button" class="obtn btn btn-sm btn-outline-info tmEditBtn" data-listlen="'+parseInt(timu_listlen+1)+'" onclick="timuEdit(this,'+title+','+type+','+options+','+status+','+categoryId+')">编辑</button>'+
+        '<button type="button" class="obtn btn btn-sm btn-outline-info tmEditBtn" data-listlen="'+parseInt(timu_listlen+1)+'" onclick="timuEdit(this,'+title+','+type+','+options+','+status+','+categoryId+','+categoryName+')">编辑</button>'+
         '<button type="button" class="obtn btn btn-sm btn-outline-danger tmDeteleBtn" onclick="timuDetele(this)">删除</button>'+
         '</div>';
         html +='</div>';
@@ -414,6 +417,7 @@ $(function() {
         var title = $("#e_title").val();
         var type = $("#e_type").val();
         var status = $("#e_status").val();
+        var categoryName = $("#e_categoryName").val();
         var categoryId = $("#e_categoryId").val();
         var tmLen = $("#e_tmLen").val();
         var ckNum = $("#e_ckNum").val();
@@ -460,9 +464,9 @@ $(function() {
         }
 
         
-        if($.trim(categoryId).length == 0){
+        if($.trim(categoryName).length == 0){
             art.dialog({
-                content:"分类ID不能为空!",
+                content:"题库分类名称不能为空!",
                 cancel:false,
                 fixed: true,
                 lock: true,
@@ -504,8 +508,9 @@ $(function() {
         }
         options =  JSON.stringify(options).replace(/\"/g,"'");
         title = JSON.stringify(title).replace(/\"/g,"'");
+        categoryName = JSON.stringify(categoryName).replace(/\"/g,"'");
         html +='<div class="timu_opernDiv">'+
-        '<button type="button" class="obtn btn btn-sm btn-outline-info tmEditBtn" data-listlen="'+tmLen+'" onclick="timuEdit(this,'+title+','+type+','+options+','+status+','+categoryId+')">编辑</button>'+
+        '<button type="button" class="obtn btn btn-sm btn-outline-info tmEditBtn" data-listlen="'+tmLen+'" onclick="timuEdit(this,'+title+','+type+','+options+','+status+','+categoryId+','+categoryName+')">编辑</button>'+
         '<button type="button" class="obtn btn btn-sm btn-outline-danger tmDeteleBtn" onclick="timuDetele(this)">删除</button>'+
         '</div>';
         html +='</div>';
@@ -1063,9 +1068,10 @@ function e_minusWay(e){ //减少
 
 
 //左边题目列表编辑
-function timuEdit(e,title,type,options,status,categoryId){
+function timuEdit(e,title,type,options,status,categoryId,categoryName){
     options =  JSON.stringify(options).replace(/\'/g,'"');
     title = JSON.stringify(title).replace(/\"/g,"");
+    categoryName = JSON.stringify(categoryName).replace(/\"/g,"");
     options = JSON.parse(options);
     var tmLen = $(e).attr('data-listlen');
     
@@ -1103,6 +1109,8 @@ function timuEdit(e,title,type,options,status,categoryId){
     $("#e_status").val(status);
     $("#e_categoryId").attr("value",categoryId);
     $("#e_categoryId").val(categoryId);
+    $("#e_categoryName").attr("value",categoryName);
+    $("#e_categoryName").val(categoryName);
     $("#e_qSubjectModal").modal('show');
 }
 
