@@ -226,6 +226,7 @@
                         $.initBootstrapTable("#table-data", {
                                method: 'post',
                                url: domainUrl + 'admin/log/login/list.do?token='+token,
+                               queryParams: loginLqueryParams,
                                height:'auto',
                                toolbar: '',
                                pageSize: 10,
@@ -285,6 +286,18 @@
         });
 
    });
+
+
+
+   function loginLqueryParams(params){
+        var beginDate = $("#loginLog_beginDate1").find("input").val();
+        var endDate = $("#loginLog_endDate1").find("input").val();
+        var temp = {  
+            beginDate:beginDate,
+            endDate:endDate
+        };
+        return temp;
+   }
 
 
 

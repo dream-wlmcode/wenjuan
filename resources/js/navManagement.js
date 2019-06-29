@@ -806,7 +806,7 @@ window.operateEvents = {      
             },
             success: function(data) {
                 if (data.code == 200) {
-                    $("#e_details_id").attr("value", data.data.id);
+                    // $("#e_details_id").attr("value", data.data.id);
                     $("#e_details_name").attr("value", data.data.name);
                     $("#e_details_path").attr("value", data.data.path);
                     // $("#e_details_parentId").attr("value",data.data.parentId);
