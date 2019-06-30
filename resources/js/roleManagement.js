@@ -1,4 +1,4 @@
-/*tree set s*/
+/*tree set 设置导航 s*/
 var setting = {
     view: {
         selectedMulti: false
@@ -42,6 +42,56 @@ function zTreeonClick(event, treeId, treeNode, clickFlag){
         // $(".curSelectedNode").removeClass('curSelectedNode');
         $("#"+node.tId+"_a").addClass('curSelectedNode');
         treeSetNav.checkNode(node, true); //将指定ID的节点选中
+    }
+}
+/*tree set e*/
+
+
+
+/*tree set 设置权限 s*/
+var setting2 = {
+    view: {
+        selectedMulti: false
+    },
+    check: {
+        enable: true
+    },
+    data: {
+        simpleData: {
+            enable: true
+        }
+    },
+    edit: {
+        enable: false
+    },
+    callback: {
+        onCheck: treeSetKeyOnCheck,
+        onClick: treeSetKeyonClick,
+    },
+};
+
+
+function treeSetKeyOnCheck(event, treeId, treeNode) {
+    var $table = $("#table-data");
+    var treeSetKey = $.fn.zTree.getZTreeObj("treeSetKey");
+    var node = treeSetKey.getNodeByParam("id", treeNode.id, null);
+    if (treeNode.checked) {
+        // $(".curSelectedNode").removeClass('curSelectedNode');
+        $("#"+node.tId+"_a").addClass('curSelectedNode');
+    } else {
+        $("#"+node.tId+"_a").removeClass('curSelectedNode');
+    }
+}
+
+
+function treeSetKeyonClick(event, treeId, treeNode, clickFlag){
+    var $table = $("#table-data");
+    var treeSetKey = $.fn.zTree.getZTreeObj("treeSetKey");
+    var node = treeSetKey.getNodeByParam("id", treeNode.id, null);
+    if(treeNode.checked == false){
+        // $(".curSelectedNode").removeClass('curSelectedNode');
+        $("#"+node.tId+"_a").addClass('curSelectedNode');
+        treeSetKey.checkNode(node, true); //将指定ID的节点选中
     }
 }
 /*tree set e*/
@@ -708,7 +758,7 @@ window.operateEvents = {      'click .rowdelete': function(e, value, row, 
                         name: "跟目录",
                     });
                     console.log(zNodes);
-                    $.fn.zTree.init($("#treeSetKey"), setting, zNodes);
+                    $.fn.zTree.init($("#treeSetKey"), setting2, zNodes);
                     //默认展开根目录
                     dafultzkdirectory("treeSetKey");
 
