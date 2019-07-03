@@ -223,6 +223,7 @@ $(function() {
                 window.location.href = "/login.html";
             } else if (data.code == 500) {
                 alert(data.msg);
+                window.location.href = "/pages/500.html";
             }
         },
         error: function(error) {
@@ -427,6 +428,7 @@ $(function() {
                         width: 200,
                         ok: function() {},
                     });
+                    window.location.href = "/pages/500.html";
                 }
             },
             error: function(error) {
@@ -737,6 +739,7 @@ $(function() {
                                     width: 200,
                                     ok: function() {},
                                 });
+                                window.location.href = "/pages/500.html";
                             }
                         },
                         error: function(error) {
@@ -825,6 +828,7 @@ window.operateEvents = {    
                                 width: 200,
                                 ok: function() {},
                             });
+                            window.location.href = "/pages/500.html";
                         }
                     },
                     error: function(error) {
