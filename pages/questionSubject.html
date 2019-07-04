@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>题库题目列表</title>
     <link rel="stylesheet" href="/resources/vendor/bootstrap-table/bootstrap-table.min.css">
+    <link rel="stylesheet" href="/resources/vendor/bootstrap-table-fixed-columns/css/bootstrap-table-fixed-columns.css">
     <link rel="stylesheet" href="/resources/vendor/simple-line-icons/css/simple-line-icons.css">
     <link rel="stylesheet" href="/resources/vendor/font-awesome/css/fontawesome-all.min.css">
     <link rel="stylesheet" href="/resources/css/styles.css">
@@ -110,7 +111,7 @@
                                         </button>
                                     </div>
 
-                                    <table class="table table-bordered  table-striped table-hover" id="table-data">
+                                    <table class="table table-bordered  table-striped table-hover" id="table-data" style="width: 1200px;">
 
                                     </table>
                                 </div>
@@ -421,6 +422,13 @@
 <script src="/resources/vendor/bootstrap-table/bootstrap-table.min.js"></script>
 <script src="/resources/vendor/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
 
+<!-- fixed s -->
+<script src="/resources/vendor/bootstrap-table-fixed-columns/js/bootstrap-table-fixed-columns.js">
+</script>
+<script src="/resources/vendor/bootstrap-table/extensions/treegrid/bootstrap-table-treegrid.min.js">
+</script>
+<!-- fixed e -->
+
 <!-- <script src="/resources/vendor/select2/js/select2.min.js"></script> -->
 <!-- <script src="/resources/vendor/select2/js/select2_locale_zh-CN.js"></script> -->
 
@@ -441,6 +449,7 @@
    var arr_authList = "";
    var ix = 1;
    var e_ix = 1;
+   var cked_Array = []; //选中id全局变量
    $(function(){
       
         //获取权限
@@ -464,17 +473,19 @@
                                method: 'post',
                                url: domainUrl + 'admin/qb/list.do?token='+token,
                                height:'auto',
-                               pageSize: 6, 
+                               pageSize: 6,
+                               fixedColumns: true,
+                               fixedNumber: 1, 
                                columns: [
                                     {
                                         checkbox: true,
-                                        formatter: function (i,row) {
+                                        /*formatter: function (i,row) {
                                             if($.inArray(row.id,overAllIds)!=-1){
                                                 return {
                                                     checked : true
                                                 }
                                             }
-                                        }
+                                        }*/
                                     },
                                     {
                                         field: 'id',
@@ -505,10 +516,129 @@
                                     },  
                                ],
 
+
+                               onPostBody:function(){
+                                  // console.log(cked_Array);
+                                  $table = $("#table-data");
+                                  for(var i = 0;i<cked_Array.length;i++){
+                                      $table.find("td input:checkbox[value='"+cked_Array[i]+"']").prop("checked",true);
+                                  }
+                                  var count=0;//定义一个计数变量
+                                  var ck = $table.find("td input:checkbox");
+                                  var cklen = $table.find("td input:checkbox").length;
+                                  ck.each(function(){
+                                     if($(this).is(':checked')){
+                                         count++;
+                                     }
+                                  });
+                                  // console.log(count);
+                                  // console.log(ck.length);
+                                  if(count==ck.length){
+                                      if(ck.length != 0){
+                                         $('.fixed-table-container input[name="btSelectAll"]').prop('checked',true); 
+                                      }
+                                  }else{
+                                      $('.fixed-table-container input[name="btSelectAll"]').prop('checked',false);
+                                  }
+                               },
+
                         });
-                        $table.on('uncheck.bs.table check.bs.table check-all.bs.table uncheck-all.bs.table',function(e,rows){
+                        /*$table.on('uncheck.bs.table check.bs.table check-all.bs.table uncheck-all.bs.table',function(e,rows){
                             var datas = $.isArray(rows) ? rows : [rows];
                             examine(e.type,datas); 
+                        });*/
+                        //全选
+                        $('.fixed-table-container').on('click','input[name="btSelectAll"]',function(){
+                           if($(this).is(':checked')){
+                                  $('.fixed-table-body-columns input[name="btSelectItem"]').prop('checked',true);
+                                  var rows = $('.fixed-table-body-columns input[name="btSelectItem"]');
+                                  console.log(cked_Array.length);
+                                  console.log(rows.length);
+
+                                  var ids = "";
+                                  var id_arry = [];
+                                  var ckid_arry = [];
+                                  rows.each(function(index, el) {
+                                      id_arry.push($(this).attr("value"));
+                                  });
+                                  for(var j=0;j<cked_Array.length;j++){
+                                      ckid_arry.push(cked_Array[j]);
+                                  }
+
+                                  console.log("id_arry:"+id_arry);
+                                  console.log("ckid_arry:"+ckid_arry);
+
+                                  if(cked_Array.length == rows.length){
+                                     ckid_arry = [];
+                                     ids = arraysDiff(id_arry,ckid_arry);
+                                  }
+                                  if(cked_Array.length > rows.length){
+                                     //ckid_arry没清空之前拿到相同的值
+                                     var result = new Array();
+                                     var c = id_arry.toString();
+                                     for (var i = 0; i < ckid_arry.length; i++) {
+                                        if (c.indexOf(ckid_arry[i].toString()) > -1) {
+                                            for (var j = 0; j < id_arry.length; j++) {
+                                                if (ckid_arry[i] == id_arry[j]) {
+                                                    result.push(ckid_arry[i]);
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                     }
+
+                                     ckid_arry = [];
+                                     var idar = arraysDiff(id_arry,ckid_arry);
+                                     ids = arraysDiff(idar,result);
+                                  }
+                                  if(cked_Array.length < rows.length){
+                                     ids = arraysDiff(id_arry,ckid_arry);
+                                     console.log(ids);
+                                  }
+
+                                  console.log(arraysDiff(id_arry,ckid_arry));
+
+                                  ids = arraysDiff(ids,ckid_arry);
+                                  console.log(ids); 
+                                  for(var i=ids.length-1;i>=0;i--){
+                                     var id = ids[i];
+                                     cked_Array.push(id);
+                                  }
+
+
+                           }else{
+                               $('.fixed-table-body-columns input[name="btSelectItem"]').prop('checked',false);
+                               var rows = $('.fixed-table-body-columns input[name="btSelectItem"]');
+                               rows.each(function(index, el) {
+                                  cked_Array.splice($.inArray($(this).attr("value"), cked_Array), 1);
+                               });
+                           } 
+                        });
+                          
+                        //选中事件
+                        $("#table-data").on('check.bs.table',function(row, $element){
+                              var id = $element.id;
+                              cked_Array.push(id.toString());
+
+                              var inputs = $table.find('input[name="btSelectItem"]');
+                              var num = 0;
+                              inputs.each(function(){
+                                 if($(this).is(':checked')){
+                                     num++;
+                                 }
+                              });
+                              if(num==inputs.length){
+                                 $('.fixed-table-container input[name="btSelectAll"]').prop('checked',true);
+                              }else{
+                                 $('.fixed-table-container input[name="btSelectAll"]').prop('checked',false);
+                              }
+                        });
+
+                        //取消选中事件
+                        $("#table-data").on('uncheck.bs.table',function(row, $element){
+                              var id = $element.id;
+                              cked_Array.splice($.inArray(id.toString(), cked_Array), 1);
+                              $('.fixed-table-container input[name="btSelectAll"]').prop('checked',false);
                         });
                     }
 
@@ -556,6 +686,9 @@
             $("#addqSubject_title").val("");
             $("#addqSubject_type option:first").prop("selected", 'selected');
             $("#select_Box").find(".xxtext").val("");
+            if($("#select_Box .card-body").find(".coningroup").length > 1 ){
+                $("#select_Box .card-body").find(".coningroup:first").nextAll().remove();
+            }
             $("#addqSubject_status option:first").prop("selected", 'selected');
             $("#addqSubject_categoryName").val("");
             $("#addqSubject_categoryId").val("");
@@ -955,8 +1088,9 @@
         //批量删除事件
         $("#qSubject_deletes").click(function(event) {
             var $table = $("#table-data");
-            console.log(overAllIds);
-            if(overAllIds.length == 0){
+            //overAllIds
+            console.log(cked_Array);
+            if(cked_Array.length == 0){
                 art.dialog({
                     content:"请至少选中一行数据",
                     cancel:false,
@@ -966,8 +1100,8 @@
                     ok: function () {},
                 });
             }else{
-                console.log(overAllIds.join(','));
-                var ids = overAllIds.join(',');
+                console.log(cked_Array.join(','));
+                var ids = cked_Array.join(',');
                 art.dialog({
                     content:"确定要删除所选数据？",
                     ok: function () {
@@ -1027,7 +1161,7 @@
 
    });
 
-var overAllIds = new Array();  //全局数组
+/*var overAllIds = new Array();  //全局数组
 
 function examine(type,datas){            
     if(type.indexOf('uncheck')==-1){    
@@ -1040,7 +1174,7 @@ function examine(type,datas){
             overAllIds.splice(overAllIds.indexOf(v.id),1);    //删除取消选中行
         });
     }
-}
+}*/
 
 //加载题库分类表格数据
 function loadingqClassify(){
@@ -1272,6 +1406,7 @@ function e_minusWay(e){ //减少
                 success:function (data) {
                     if (data.code == 200) {
                         $("#e_title").attr("value",data.data.title);
+                        $("#e_title").val(data.data.title);
                         $("#e_type").val(data.data.type);
 
                         if(data.data.type == "1"){
