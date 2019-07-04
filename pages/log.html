@@ -174,6 +174,30 @@
 
 
 
+<!-- 日志内容详情 s -->
+<div class="modal fade" id="contentDetailsModal" tabindex="-1" role="dialog" aria-labelledby="contentDetailsModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="contentDetailsModalLabel">日志内容</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+           
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 日志内容详情 e -->
+
+
+
+
 <script src="/resources/vendor/jquery/jquery.min.js"></script>
 <script src="/resources/vendor/popper.js/popper.min.js"></script>
 <script src="/resources/vendor/bootstrap/js/bootstrap.min.js"></script>
@@ -285,7 +309,8 @@
                                     // },
                                     {
                                         field: 'text',
-                                        title: '日志内容'
+                                        title: '日志内容',
+                                        visible:false,
                                     },
                                     {
                                         field: 'type',
@@ -306,7 +331,13 @@
                                     {
                                         field: 'creDate',
                                         title: '操作时间'
-                                    }
+                                    },
+                                    {
+                                        field: 'Button',
+                                        title: '操作',
+                                        events: operateEvents,
+                                        formatter: operateFormatter
+                                    },
                                ],
                                
                         });
@@ -450,6 +481,25 @@ function loadLogType(){
          ],
 
    });
+}
+
+
+
+
+function operateFormatter(value, row, index) {
+    var rowcontentDetails_html = "";
+    rowcontentDetails_html = '<i class="tbmr rowcontentDetails fa fa-info-circle" title="日志内容详情"></i>';
+    return [
+        rowcontentDetails_html,      
+    ].join('');  
+}
+
+window.operateEvents = {      
+    'click .rowcontentDetails': function(e, value, row, index) { //查看详情
+        console.log(row.text);
+        $("#contentDetailsModal").find(".modal-body").text(row.text);
+        $("#contentDetailsModal").modal('show');
+    },
 }
 
 </script>
