@@ -444,6 +444,44 @@ function unique(arr){
     return uarr;
 }
 
+// 找出数组中出现次数最多的元素
+function findMost(arr) {
+    var maxEle;
+    var maxNum = 1;
+    var obj = arr.reduce(function (p, k) {
+        p[k] ? p[k]++ : p[k] = 1;
+
+        if (p[k] > maxNum) {
+            maxEle = k;
+            maxNum++;
+        }
+
+        return p;
+
+    }, {});
+    return maxEle;
+}
+
+
+//js数组删除所有重复的元素(删除指定的元素)
+function delArrElem(arr,s){
+    var i=arr.length;
+    while(i--)if(arr[i]===s)arr.splice(i,1);
+    return arr;
+}
+
+
+//获取数组重复的元素
+function refrain(arr) {
+　　var tmp = [];
+　　if(Array.isArray(arr)) {
+　　　　arr.concat().sort().sort(function(a,b) {
+　　　　　　if(a==b && tmp.indexOf(a) === -1) tmp.push(a);
+　　　　});
+　　}
+　　return tmp;
+}
+
 
 /*获取参数*/
 function getQueryString(name) { 

@@ -831,16 +831,28 @@ function loadingRightqS() {
                 if (c.indexOf(ckid_arry[i].toString()) > -1) {
                     for (var j = 0; j < id_arry.length; j++) {
                         if (ckid_arry[i] == id_arry[j]) {
-                            result.push(ckid_arry[i]);
+                            result.push(ckid_arry[i].toString());
                             break;
                         }
                     }
                 }
              }
-
              ckid_arry = [];
              var idar = arraysDiff(id_arry,ckid_arry);
-             ids = arraysDiff(idar,result);
+             if(idar.length > result.length || idar.length == result.length){
+                ids = arraysDiff(idar,result);
+             }else{
+                var zfarr = findMost(result);
+                idar.push(zfarr.toString());
+                ids = delArrElem(idar,zfarr.toString());
+                var qbid = [];
+                $("#timu_List").find(".timu_box").each(function(index, el) {
+                  qbid.push($(this).attr("data-qbid").toString());
+                });
+                var someArr = refrain(ids.concat(qbid));
+                ids = delArrElem(ids,someArr.toString());
+             }
+             console.log(ids);
           }
 
           if(cked_Array.length < rows.length){
@@ -849,11 +861,19 @@ function loadingRightqS() {
 
 
           console.log(arraysDiff(id_arry,ckid_arry));
-
-
+          
+          var qbid = [];
+          $("#timu_List").find(".timu_box").each(function(index, el) {
+            qbid.push($(this).attr("data-qbid").toString());
+          });
+          var someArr = refrain(ids.concat(qbid));
+          ids = delArrElem(ids,someArr.toString());
+          console.log(ids);
           for(var i=ids.length-1;i>=0;i--){
               var id = ids[i];
               cked_Array.push(id);
+              //数组去重
+              cked_Array = unique(cked_Array);
               $.ajax({
                   url: domainUrl + 'admin/qb/get.do',
                   type: "POST",
@@ -893,6 +913,9 @@ function loadingRightqS() {
                   }
               });
           }
+
+
+
         },
 
         /*onUncheckAll:function(rows){ //取消全选
@@ -920,7 +943,9 @@ function loadingRightqS() {
 
         onCheck:function(row, $element){ //选中
             var id = row.id;
-            cked_Array.push(id);     
+            cked_Array.push(id.toString());
+            //数组去重
+            cked_Array = unique(cked_Array);   
             $.ajax({
                 url: domainUrl + 'admin/qb/get.do',
                 type: "POST",
@@ -982,7 +1007,6 @@ function loadingRightqS() {
             if(timu_listlen == 0){
                 $("#timu_List").find(".timu_empty").show();
             }
-
         },
 
     });
@@ -1039,6 +1063,8 @@ function loadingRightqS() {
         if(timu_listlen == 0){
             $("#timu_List").find(".timu_empty").show();
         }
+        //数组去重
+        cked_Array = unique(cked_Array);
     });
 }
 

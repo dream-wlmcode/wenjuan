@@ -167,13 +167,16 @@ $(function() {
                                  cked_Array.push(id);
                               }
 
-
+                            //数组去重
+                            cked_Array = unique(cked_Array);
                        }else{
                            $('.fixed-table-body-columns input[name="btSelectItem"]').prop('checked',false);
                            var rows = $('.fixed-table-body-columns input[name="btSelectItem"]');
                            rows.each(function(index, el) {
                               cked_Array.splice($.inArray($(this).attr("value"), cked_Array), 1);
                            });
+                           //数组去重
+                           cked_Array = unique(cked_Array);
                        } 
                     });
                     
@@ -194,6 +197,8 @@ $(function() {
                         }else{
                            $('.fixed-table-container input[name="btSelectAll"]').prop('checked',false);
                         }
+                        //数组去重
+                        cked_Array = unique(cked_Array);
                     });
 
                     //取消选中事件
@@ -201,6 +206,8 @@ $(function() {
                         var id = $element.id;
                         cked_Array.splice($.inArray(id.toString(), cked_Array), 1);
                         $('.fixed-table-container input[name="btSelectAll"]').prop('checked',false);
+                        //数组去重
+                        cked_Array = unique(cked_Array);
                     });
                 }
 
