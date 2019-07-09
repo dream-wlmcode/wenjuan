@@ -94,10 +94,29 @@ select{
 .selectTable .xltable tbody tr{
 	cursor: pointer;
 }
-/*.table{
-    table-layout: fixed;
 
-} */
+/*固定列表格公共 s*/
+.bootstrap-table .fixed-table-container .table{
+    table-layout: fixed;
+} 
+.bootstrap-table .fixed-table-container .table td{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /* 只对英文起作用，以字母作为换行依据 */
+    word-break:break-all;
+    /* 只对英文起作用，以单词作为换行依据 */
+    word-wrap:break-word; 
+    white-space: nowrap;
+}
+.bootstrap-table .fixed-table-container .table thead th.bs-checkbox .th-inner{
+	padding: 0.75rem 0;
+}
+.bootstrap-table .fixed-table-container .table .bs-checkbox{
+	padding: 0;
+}
+/*固定列表格公共 e*/
+
+
 .table.table-hit tr{
 	cursor: default;
 }

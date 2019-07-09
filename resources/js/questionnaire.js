@@ -45,15 +45,15 @@ $(function() {
                         },
                         {
                             field: 'name',
-                            title: '问卷名称'
+                            title: '问卷名称',
                         },
                         {
                             field: 'beginDate',
-                            title: '开始时间'
+                            title: '开始时间',
                         },
                         {
                             field: 'endDate',
-                            title: '结束时间'
+                            title: '结束时间',
                         },
                         {
                             field: 'status',
@@ -72,15 +72,15 @@ $(function() {
                         },
                         {
                             field: 'cName',
-                            title: '分类名称'
+                            title: '分类名称',
                         },
                         {
                             field: 'uName',
-                            title: '创建者'
+                            title: '创建者',
                         },
                         {
                             field: 'creDate',
-                            title: '创建时间'
+                            title: '创建时间',
                         },
                         {
                             field: 'Button',
