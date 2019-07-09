@@ -737,7 +737,16 @@ $(function() {
                                         $("#table-data").bootstrapTable('refresh');
                                     },
                                 });
-                            } else if (data.code == 500) {
+                            }else if (data.code == 201) {
+                                art.dialog({
+                                    content: data.msg,
+                                    cancel: false,
+                                    fixed: true,
+                                    lock: true,
+                                    width: 200,
+                                    ok: function() {},
+                                });
+                            }else if (data.code == 500) {
                                 art.dialog({
                                     content: data.msg,
                                     cancel: false,
@@ -815,6 +824,7 @@ window.operateEvents = {    
                         ids: ids.join(',')
                     },
                     success: function(data) {
+                        console.log(data.code);
                         if (data.code == 200) {
                             art.dialog({
                                 content: data.msg,
@@ -825,6 +835,15 @@ window.operateEvents = {    
                                 ok: function() {
                                     $("#table-data").bootstrapTable('refresh');
                                 },
+                            });
+                        }else if (data.code == 201) {
+                            art.dialog({
+                                content: data.msg,
+                                cancel: false,
+                                fixed: true,
+                                lock: true,
+                                width: 200,
+                                ok: function() {},
                             });
                         } else if (data.code == 500) {
                             art.dialog({
