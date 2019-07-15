@@ -212,7 +212,11 @@ $(function() {
                         },
                         {
                             field: 'path',
-                            title: '页面路径'
+                            title: '页面路径',
+                            formatter:function(value, row, index){
+                                var spanH = "<span title='"+value+"'>"+value+"</span>";
+                                return spanH;
+                            }
                         },
                         {
                             field: 'parentId',
@@ -221,14 +225,20 @@ $(function() {
                         },
                         {
                             field: 'uName',
+                            width:90,
                             title: '创建者'
                         },
                         {
                             field: 'creDate',
-                            title: '创建时间'
+                            title: '创建时间',
+                            formatter:function(value, row, index){
+                                var spanH = "<span title='"+value+"'>"+value+"</span>";
+                                return spanH;
+                            }
                         },
                         {
                             field: 'priority',
+                            width:90,
                             title: '显示顺序'
                         },
                         {

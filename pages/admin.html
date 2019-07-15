@@ -741,7 +741,11 @@
                                     }, 
                                     {
                                         field: 'creDate',
-                                        title: '创建时间'
+                                        title: '创建时间',
+                                        formatter:function(value, row, index){
+                                            var spanH = "<span title='"+value+"'>"+value+"</span>";
+                                            return spanH;
+                                        }
                                     },
                                     {
                                         field: 'Button',
@@ -1247,7 +1251,11 @@ function loadingrole(){
               }, 
               {
                   field: 'creDate',
-                  title: '创建时间'
+                  title: '创建时间',
+                  formatter:function(value, row, index){
+                      var spanH = "<span title='"+value+"'>"+value+"</span>";
+                      return spanH;
+                  }
               }
          ],
 

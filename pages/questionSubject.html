@@ -494,22 +494,30 @@
                                     },
                                     {
                                         field: 'title',
-                                        title: '标题'
+                                        title: '标题',
+                                        formatter:function(value, row, index){
+                                            var spanH = "<span title='"+value+"'>"+value+"</span>";
+                                            return spanH;
+                                        }
                                     }, 
                                     {
                                         field: 'cName',
+                                        width:85,
                                         title: '分类'
                                     }, 
                                     {
                                         field: 'uName',
+                                        width:90,
                                         title: '创建者'
                                     },
                                     {
                                         field: 'creDate',
+                                        width:140,
                                         title: '创建时间'
                                     },
                                     {
                                         field: 'Button',
+                                        width:100,
                                         title: '操作',
                                         events: operateEvents,
                                         formatter: operateFormatter

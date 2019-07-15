@@ -100,7 +100,11 @@ $(function(){
 		                    },
 		                    {
 		                        field: 'creDate',
-		                        title: '创建时间'
+		                        title: '创建时间',
+	                            formatter:function(value, row, index){
+	                                var spanH = "<span title='"+value+"'>"+value+"</span>";
+	                                return spanH;
+	                            }
 		                    },
 		               ],
 
@@ -265,7 +269,11 @@ function getLeftusersR(){
               }, 
               {
                   field: 'date',
-                  title: '创建时间'
+                  title: '创建时间',
+	              formatter:function(value, row, index){
+	                  var spanH = "<span title='"+value+"'>"+value+"</span>";
+	                  return spanH;
+	              }
               },
               {
                  field: 'Button',

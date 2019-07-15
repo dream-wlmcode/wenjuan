@@ -46,14 +46,26 @@ $(function() {
                         {
                             field: 'name',
                             title: '问卷名称',
+                            formatter:function(value, row, index){
+                                var spanH = "<span title='"+value+"'>"+value+"</span>";
+                                return spanH;
+                            }
                         },
                         {
                             field: 'beginDate',
                             title: '开始时间',
+                            formatter:function(value, row, index){
+                                var spanH = "<span title='"+value+"'>"+value+"</span>";
+                                return spanH;
+                            }
                         },
                         {
                             field: 'endDate',
                             title: '结束时间',
+                            formatter:function(value, row, index){
+                                var spanH = "<span title='"+value+"'>"+value+"</span>";
+                                return spanH;
+                            }
                         },
                         {
                             field: 'status',
@@ -81,6 +93,10 @@ $(function() {
                         {
                             field: 'creDate',
                             title: '创建时间',
+                            formatter:function(value, row, index){
+                                var spanH = "<span title='"+value+"'>"+value+"</span>";
+                                return spanH;
+                            }
                         },
                         {
                             field: 'Button',
