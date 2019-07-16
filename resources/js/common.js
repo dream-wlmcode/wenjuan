@@ -567,4 +567,12 @@ function dropdownTable(name,id,selectCot,d_table,table,parameter){
             e.stopPropagation();
         });
 }
+
+
+/*限制文本框不可输入英文单双引号*/
+function replaceLikeVal(comp){
+    if (comp.value.indexOf("'") != -1 || comp.value.indexOf("\"") != -1) {
+        comp.value = comp.value.replace(/\'/g,"").replace(/\"/g,"");
+    }
+}
 		

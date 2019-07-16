@@ -138,7 +138,7 @@
               <div class="form-group row">
                 <label for="e_title" class="col-sm-3 col-form-label text-right px-sm-0">标题：</label>
                 <div class="col-sm-6">
-                  <input type="text" class="form-control" id="e_title" placeholder="请输入标题">
+                  <input type="text" class="form-control" id="e_title" placeholder="请输入标题" onkeyup="javascript:replaceLikeVal(this)" />
                 </div>
               </div>
 
@@ -240,7 +240,7 @@
               <div class="form-group row">
                 <label for="addqSubject_title" class="col-sm-3 col-form-label text-right px-sm-0">标题：</label>
                 <div class="col-sm-6">
-                  <input type="text" class="form-control" id="addqSubject_title" placeholder="请输入标题">
+                  <input type="text" class="form-control" id="addqSubject_title" placeholder="请输入标题" onkeyup="javascript:replaceLikeVal(this)">
                 </div>
               </div>
 
@@ -1420,6 +1420,7 @@ function e_minusWay(e){ //减少
                 data: {token: token,id:id},
                 success:function (data) {
                     if (data.code == 200) {
+                        // console.log(data.data.title);
                         $("#e_title").attr("value",data.data.title);
                         $("#e_title").val(data.data.title);
                         $("#e_type").val(data.data.type);
