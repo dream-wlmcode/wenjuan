@@ -295,6 +295,19 @@ $(function() {
 
     //单选
     $("#select_Box .card-body .coningroup").find("#plus").click(function(event) {
+          console.log($("#select_Box .card-body").find(".coningroup").length);
+          if($("#select_Box .card-body").find(".coningroup").length >= 4){
+            art.dialog({
+                title:"提示",
+                content:"最多只能添加4个选项！",
+                cancel:false,
+                fixed: true,
+                lock: true,
+                width: 200,
+                ok: function () {},
+            });
+            return;
+          }
           ix ++;
           var chm = '<div class="input-group mb-3 coningroup" data-ix="'+ix+'">'+
                         '<input type="text" class="form-control input-sm col-6 xxtext" placeholder="选项'+ix+'">'+
@@ -480,6 +493,19 @@ $(function() {
 
     //选择
     $("#e_select_Box .card-body .coningroup").find("#e_plus").click(function(event) {
+          console.log($("#e_select_Box .card-body").find(".coningroup").length);
+          if($("#e_select_Box .card-body").find(".coningroup").length >= 4){
+            art.dialog({
+                title:"提示",
+                content:"最多只能添加4个选项！",
+                cancel:false,
+                fixed: true,
+                lock: true,
+                width: 200,
+                ok: function () {},
+            });
+            return;
+          }
           e_ix ++;
           var chm = '<div class="input-group mb-3 coningroup" data-ix="'+e_ix+'">'+
                         '<input type="text" class="form-control input-sm col-6 xxtext" placeholder="选项'+e_ix+'">'+
@@ -1170,6 +1196,19 @@ function loadingqClassify(){
 }
 
 function plusWay(e) { //添加
+    console.log($("#select_Box .card-body").find(".coningroup").length);
+    if($("#select_Box .card-body").find(".coningroup").length >= 4){
+      art.dialog({
+          title:"提示",
+          content:"最多只能添加4个选项！",
+          cancel:false,
+          fixed: true,
+          lock: true,
+          width: 200,
+          ok: function () {},
+      });
+      return;
+    }
     ix++;
     var chm = '<div class="input-group mb-3 coningroup" data-ix="' + ix + '">' + '<input type="text" class="form-control input-sm col-6 xxtext" placeholder="选项' + ix + '">' + '<div class="input-group-prepend mx-sm-3"><span class="input-group-text plus" onclick="plusWay(this)">+</span></div>' + '<div class="input-group-prepend" hidden="hidden">' + '<span class="input-group-text minus" onclick="minusWay(this)">-</span></div>' + '</div>';
     $(e).parents(".card-body").append(chm);
@@ -1220,6 +1259,19 @@ function e_loadingqClassify(){
 }
 
 function e_plusWay(e){ //添加
+  console.log($("#e_select_Box .card-body").find(".coningroup").length);
+  if($("#e_select_Box .card-body").find(".coningroup").length >= 4){
+    art.dialog({
+        title:"提示",
+        content:"最多只能添加4个选项！",
+        cancel:false,
+        fixed: true,
+        lock: true,
+        width: 200,
+        ok: function () {},
+    });
+    return;
+  }
   e_ix++;
   var chm = '<div class="input-group mb-3 coningroup" data-ix="'+e_ix+'">'+
                 '<input type="text" class="form-control input-sm col-6 xxtext" placeholder="选项'+e_ix+'">'+

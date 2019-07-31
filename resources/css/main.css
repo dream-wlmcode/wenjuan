@@ -13,6 +13,20 @@
 	background-image:-webkit-gradient(linear,left bottom,left top,color-stop(0.44,#999),color-stop(0.72,#999),color-stop(0.86,#999));
 } 
 /*.bootstrap-table .fixed-table-container .fixed-table-body*/
+
+/*modal s*/
+/* .select_Modals{
+    -moz-user-select:none;
+    -webkit-user-select:none;
+    -ms-user-select:none;
+    -khtml-user-select:none;
+    user-select:none;
+}
+.modal-header.mhMove{
+	cursor:move;
+} */
+/*modal e*/
+
 textarea{
 	resize: none;
 }
